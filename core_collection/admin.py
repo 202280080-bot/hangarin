@@ -1,5 +1,30 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 from .models import Task, SubTask, Category, Priority, Note
+
+
+def edit_button(obj):
+    url = reverse(
+        f"admin:core_collection_{obj._meta.model_name}_change",
+        args=[obj.pk]
+    )
+    return format_html('<a href="{}">Edit</a>', url)
+
+
+def delete_button(obj):
+    url = reverse(
+        f"admin:core_collection_{obj._meta.model_name}_delete",
+        args=[obj.pk]
+    )
+    return format_html(
+        '<a href="{}" style="color:red;">Delete</a>',
+        url
+    )
+
+
+edit_button.short_description = "Edit"
+delete_button.short_description = "Delete"
 
 
 @admin.register(Task)
@@ -10,6 +35,8 @@ class TaskAdmin(admin.ModelAdmin):
         "deadline",
         "priority",
         "category",
+        edit_button,
+        delete_button,
     )
 
     list_filter = (
@@ -30,6 +57,8 @@ class SubTaskAdmin(admin.ModelAdmin):
         "title",
         "status",
         "parent_task_name",
+        edit_button,
+        delete_button,
     )
 
     list_filter = (
@@ -61,6 +90,8 @@ class CategoryAdmin(admin.ModelAdmin):
 class PriorityAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        edit_button,
+        delete_button,
     )
 
     search_fields = (
@@ -74,6 +105,8 @@ class NoteAdmin(admin.ModelAdmin):
         "task",
         "content",
         "created_at",
+        edit_button,
+        delete_button,
     )
 
     list_filter = (
