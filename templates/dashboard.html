@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangarin - Dashboard</title>
 
     <style>
@@ -16,6 +17,10 @@
             color: #222;
         }
 
+        /* =========================
+           NAVBAR
+           ========================= */
+
         .navbar {
             background: #006633;
             color: white;
@@ -23,19 +28,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
 
         .navbar h2 {
             margin: 0;
         }
 
-        .logout {
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button {
             color: white;
             text-decoration: none;
-            background: #cc0000;
             padding: 9px 15px;
             border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
         }
+
+        .login {
+            background: #2563eb;
+        }
+
+        .login:hover {
+            background: #1d4ed8;
+        }
+
+        .logout {
+            background: #cc0000;
+        }
+
+        .logout:hover {
+            background: #a80000;
+        }
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
 
         .container {
             width: 95%;
@@ -56,6 +89,26 @@
             margin-top: 0;
         }
 
+        /* =========================
+           MESSAGES
+           ========================= */
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            background: #e8f5e9;
+            color: #1b5e20;
+        }
+
+        /* =========================
+           STATISTICS
+           ========================= */
+
         .stats {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -71,11 +124,20 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
+        .stat p {
+            margin: 0;
+            font-weight: bold;
+        }
+
         .stat h2 {
             color: #006633;
             font-size: 30px;
-            margin: 5px 0;
+            margin: 8px 0 0;
         }
+
+        /* =========================
+           SECTIONS
+           ========================= */
 
         .section {
             background: white;
@@ -91,10 +153,6 @@
             margin-top: 0;
         }
 
-        form {
-            margin: 0;
-        }
-
         .add-form {
             background: #f5f8f6;
             padding: 15px;
@@ -102,7 +160,13 @@
             margin-bottom: 20px;
         }
 
-        input, textarea, select {
+        /* =========================
+           FORM ELEMENTS
+           ========================= */
+
+        input,
+        textarea,
+        select {
             padding: 9px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -114,6 +178,7 @@
             width: 250px;
             height: 70px;
             vertical-align: top;
+            resize: vertical;
         }
 
         button {
@@ -136,6 +201,10 @@
         .delete {
             background: #cc0000;
         }
+
+        /* =========================
+           TABLES
+           ========================= */
 
         table {
             width: 100%;
@@ -160,21 +229,36 @@
             background: #f7faf8;
         }
 
+        /* =========================
+           EDIT FORMS
+           ========================= */
+
         .edit-form {
             background: #fff8df;
             padding: 10px;
             border-radius: 6px;
         }
 
-        .small-form input,
-        .small-form select {
-            width: auto;
-        }
-
         .empty {
             color: #777;
             padding: 15px 0;
         }
+
+        summary {
+            cursor: pointer;
+            color: #006633;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .danger-text {
+            color: #cc0000;
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
 
         @media (max-width: 1000px) {
             .stats {
@@ -190,99 +274,248 @@
             .container {
                 width: 98%;
             }
+
+            input,
+            textarea,
+            select {
+                width: 100%;
+                margin: 4px 0;
+            }
+
+            textarea {
+                width: 100%;
+            }
+
+            button {
+                margin-top: 5px;
+            }
+
+            .navbar {
+                padding: 15px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar h2 {
+                font-size: 18px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+            }
+
+            .nav-button {
+                text-align: center;
+                flex: 1;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
+
 <div class="navbar">
+
     <h2>Hangarin Task Manager</h2>
-    <a class="logout" href="{% url 'logout' %}">Logout</a>
+
+    <div class="nav-buttons">
+
+        <!-- LOGIN BUTTON -->
+        <a
+            class="nav-button login"
+            href="{% url 'login' %}"
+        >
+            Login
+        </a>
+
+        <!-- LOGOUT BUTTON -->
+        <a
+            class="nav-button logout"
+            href="{% url 'logout' %}"
+        >
+            Logout
+        </a>
+
+    </div>
+
 </div>
+
 
 <div class="container">
 
+    <!-- =====================================================
+         WELCOME
+         ===================================================== -->
+
     <div class="welcome">
-        <h1>Welcome, {{ user.username }}!</h1>
-        <p>Manage your tasks, subtasks, notes, categories, and priorities here.</p>
+
+        <h1>
+            Welcome, {{ user.username }}!
+        </h1>
+
+        <p>
+            Manage your tasks, subtasks, notes, categories,
+            and priorities here.
+        </p>
+
     </div>
 
-    <!-- DASHBOARD COUNTS -->
+
+    <!-- =====================================================
+         MESSAGES
+         ===================================================== -->
+
+    {% if messages %}
+
+    <div class="messages">
+
+        {% for message in messages %}
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         DASHBOARD COUNTS
+         ===================================================== -->
+
     <div class="stats">
+
         <div class="stat">
             <p>Tasks</p>
-            <h2>{{ task_count }}</h2>
+            <h2>{{ task_count|default:0 }}</h2>
         </div>
 
         <div class="stat">
             <p>Subtasks</p>
-            <h2>{{ subtask_count }}</h2>
+            <h2>{{ subtask_count|default:0 }}</h2>
         </div>
 
         <div class="stat">
             <p>Notes</p>
-            <h2>{{ note_count }}</h2>
+            <h2>{{ note_count|default:0 }}</h2>
         </div>
 
         <div class="stat">
             <p>Categories</p>
-            <h2>{{ category_count }}</h2>
+            <h2>{{ category_count|default:0 }}</h2>
         </div>
 
         <div class="stat">
             <p>Priorities</p>
-            <h2>{{ priority_count }}</h2>
+            <h2>{{ priority_count|default:0 }}</h2>
         </div>
+
     </div>
 
 
-    <!-- TASKS -->
+    <!-- =====================================================
+         TASKS
+         ===================================================== -->
+
     <div class="section">
+
         <h2>Tasks</h2>
 
         <div class="add-form">
+
             <h3>Add Task</h3>
 
             {% if categories and priorities %}
+
             <form method="post" action="{% url 'add_task' %}">
+
                 {% csrf_token %}
 
-                <input type="text" name="title" placeholder="Task title" required>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Task title"
+                    required
+                >
 
-                <textarea name="description" placeholder="Description"></textarea>
+                <textarea
+                    name="description"
+                    placeholder="Description"
+                ></textarea>
 
-                <input type="datetime-local" name="deadline">
+                <input
+                    type="datetime-local"
+                    name="deadline"
+                >
 
                 <select name="status">
+
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
+
                 </select>
 
                 <select name="category" required>
-                    <option value="">Select Category</option>
+
+                    <option value="">
+                        Select Category
+                    </option>
+
                     {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.name }}</option>
+
+                    <option value="{{ category.id }}">
+                        {{ category.name }}
+                    </option>
+
                     {% endfor %}
+
                 </select>
 
                 <select name="priority" required>
-                    <option value="">Select Priority</option>
+
+                    <option value="">
+                        Select Priority
+                    </option>
+
                     {% for priority in priorities %}
-                    <option value="{{ priority.id }}">{{ priority.name }}</option>
+
+                    <option value="{{ priority.id }}">
+                        {{ priority.name }}
+                    </option>
+
                     {% endfor %}
+
                 </select>
 
-                <button type="submit">Add Task</button>
+                <button type="submit">
+                    Add Task
+                </button>
+
             </form>
+
             {% else %}
-            <p>Please add at least one Category and one Priority first.</p>
+
+            <p>
+                Please add at least one Category and one Priority first.
+            </p>
+
             {% endif %}
+
         </div>
 
+
         {% if tasks %}
+
         <table>
+
             <tr>
                 <th>Title</th>
                 <th>Description</th>
@@ -294,118 +527,233 @@
             </tr>
 
             {% for task in tasks %}
+
             <tr>
+
                 <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
-                <td>{{ task.deadline|default:"No deadline" }}</td>
+
+                <td>
+                    {{ task.description|default:"-" }}
+                </td>
+
+                <td>
+
+                    {% if task.deadline %}
+                        {{ task.deadline|date:"M d, Y h:i A" }}
+                    {% else %}
+                        No deadline
+                    {% endif %}
+
+                </td>
+
                 <td>{{ task.status }}</td>
+
                 <td>{{ task.category.name }}</td>
+
                 <td>{{ task.priority.name }}</td>
 
                 <td>
-                    <details>
-                        <summary>Edit</summary>
 
-                        <form method="post"
-                              action="{% url 'edit_task' task.id %}"
-                              class="edit-form">
+                    <details>
+
+                        <summary>
+                            Edit
+                        </summary>
+
+                        <form
+                            method="post"
+                            action="{% url 'edit_task' task.id %}"
+                            class="edit-form"
+                        >
+
                             {% csrf_token %}
 
-                            <input type="text"
-                                   name="title"
-                                   value="{{ task.title }}"
-                                   required>
+                            <input
+                                type="text"
+                                name="title"
+                                value="{{ task.title }}"
+                                required
+                            >
 
                             <textarea name="description">{{ task.description }}</textarea>
 
-                            <input type="datetime-local"
-                                   name="deadline"
-                                   value="{{ task.deadline|date:'Y-m-d\TH:i' }}">
+                            <input
+                                type="datetime-local"
+                                name="deadline"
+                                value="{{ task.deadline|date:'Y-m-d\TH:i' }}"
+                            >
 
                             <select name="status">
-                                <option value="Pending" {% if task.status == "Pending" %}selected{% endif %}>Pending</option>
-                                <option value="In Progress" {% if task.status == "In Progress" %}selected{% endif %}>In Progress</option>
-                                <option value="Completed" {% if task.status == "Completed" %}selected{% endif %}>Completed</option>
+
+                                <option value="Pending"
+                                    {% if task.status == "Pending" %}selected{% endif %}>
+                                    Pending
+                                </option>
+
+                                <option value="In Progress"
+                                    {% if task.status == "In Progress" %}selected{% endif %}>
+                                    In Progress
+                                </option>
+
+                                <option value="Completed"
+                                    {% if task.status == "Completed" %}selected{% endif %}>
+                                    Completed
+                                </option>
+
                             </select>
 
                             <select name="category" required>
+
                                 {% for category in categories %}
-                                <option value="{{ category.id }}"
-                                    {% if task.category.id == category.id %}selected{% endif %}>
+
+                                <option
+                                    value="{{ category.id }}"
+                                    {% if task.category.id == category.id %}selected{% endif %}
+                                >
                                     {{ category.name }}
                                 </option>
+
                                 {% endfor %}
+
                             </select>
 
                             <select name="priority" required>
+
                                 {% for priority in priorities %}
-                                <option value="{{ priority.id }}"
-                                    {% if task.priority.id == priority.id %}selected{% endif %}>
+
+                                <option
+                                    value="{{ priority.id }}"
+                                    {% if task.priority.id == priority.id %}selected{% endif %}
+                                >
                                     {{ priority.name }}
                                 </option>
+
                                 {% endfor %}
+
                             </select>
 
-                            <button type="submit" class="edit">Save</button>
+                            <button
+                                type="submit"
+                                class="edit"
+                            >
+                                Save
+                            </button>
+
                         </form>
+
                     </details>
 
                     <br>
 
-                    <form method="post"
-                          action="{% url 'delete_task' task.id %}"
-                          onsubmit="return confirm('Delete this task?');">
+                    <form
+                        method="post"
+                        action="{% url 'delete_task' task.id %}"
+                        onsubmit="return confirm('Delete this task?');"
+                    >
+
                         {% csrf_token %}
-                        <button type="submit" class="delete">Delete</button>
+
+                        <button
+                            type="submit"
+                            class="delete"
+                        >
+                            Delete
+                        </button>
+
                     </form>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
+
         {% else %}
-        <p class="empty">No tasks yet.</p>
+
+        <p class="empty">
+            No tasks yet.
+        </p>
+
         {% endif %}
+
     </div>
 
 
-    <!-- SUBTASKS -->
+    <!-- =====================================================
+         SUBTASKS
+         ===================================================== -->
+
     <div class="section">
+
         <h2>Subtasks</h2>
 
         <div class="add-form">
+
             <h3>Add Subtask</h3>
 
             {% if tasks %}
-            <form method="post" action="{% url 'add_subtask' %}">
+
+            <form
+                method="post"
+                action="{% url 'add_subtask' %}"
+            >
+
                 {% csrf_token %}
 
-                <input type="text"
-                       name="title"
-                       placeholder="Subtask title"
-                       required>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Subtask title"
+                    required
+                >
 
                 <select name="parent_task" required>
-                    <option value="">Select Parent Task</option>
+
+                    <option value="">
+                        Select Parent Task
+                    </option>
+
                     {% for task in tasks %}
-                    <option value="{{ task.id }}">{{ task.title }}</option>
+
+                    <option value="{{ task.id }}">
+                        {{ task.title }}
+                    </option>
+
                     {% endfor %}
+
                 </select>
 
                 <select name="status">
+
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
+
                 </select>
 
-                <button type="submit">Add Subtask</button>
+                <button type="submit">
+                    Add Subtask
+                </button>
+
             </form>
+
             {% else %}
-            <p>Please create a Task first.</p>
+
+            <p>
+                Please create a Task first.
+            </p>
+
             {% endif %}
+
         </div>
 
+
         {% if subtasks %}
+
         <table>
+
             <tr>
                 <th>Title</th>
                 <th>Parent Task</th>
@@ -414,93 +762,185 @@
             </tr>
 
             {% for subtask in subtasks %}
+
             <tr>
+
                 <td>{{ subtask.title }}</td>
+
                 <td>{{ subtask.parent_task.title }}</td>
+
                 <td>{{ subtask.status }}</td>
 
                 <td>
-                    <details>
-                        <summary>Edit</summary>
 
-                        <form method="post"
-                              action="{% url 'edit_subtask' subtask.id %}"
-                              class="edit-form">
+                    <details>
+
+                        <summary>
+                            Edit
+                        </summary>
+
+                        <form
+                            method="post"
+                            action="{% url 'edit_subtask' subtask.id %}"
+                            class="edit-form"
+                        >
+
                             {% csrf_token %}
 
-                            <input type="text"
-                                   name="title"
-                                   value="{{ subtask.title }}"
-                                   required>
+                            <input
+                                type="text"
+                                name="title"
+                                value="{{ subtask.title }}"
+                                required
+                            >
 
                             <select name="parent_task" required>
+
                                 {% for task in tasks %}
-                                <option value="{{ task.id }}"
-                                    {% if subtask.parent_task.id == task.id %}selected{% endif %}>
+
+                                <option
+                                    value="{{ task.id }}"
+                                    {% if subtask.parent_task.id == task.id %}selected{% endif %}
+                                >
                                     {{ task.title }}
                                 </option>
+
                                 {% endfor %}
+
                             </select>
 
                             <select name="status">
-                                <option value="Pending" {% if subtask.status == "Pending" %}selected{% endif %}>Pending</option>
-                                <option value="In Progress" {% if subtask.status == "In Progress" %}selected{% endif %}>In Progress</option>
-                                <option value="Completed" {% if subtask.status == "Completed" %}selected{% endif %}>Completed</option>
+
+                                <option value="Pending"
+                                    {% if subtask.status == "Pending" %}selected{% endif %}>
+                                    Pending
+                                </option>
+
+                                <option value="In Progress"
+                                    {% if subtask.status == "In Progress" %}selected{% endif %}>
+                                    In Progress
+                                </option>
+
+                                <option value="Completed"
+                                    {% if subtask.status == "Completed" %}selected{% endif %}>
+                                    Completed
+                                </option>
+
                             </select>
 
-                            <button type="submit" class="edit">Save</button>
+                            <button
+                                type="submit"
+                                class="edit"
+                            >
+                                Save
+                            </button>
+
                         </form>
+
                     </details>
 
                     <br>
 
-                    <form method="post"
-                          action="{% url 'delete_subtask' subtask.id %}"
-                          onsubmit="return confirm('Delete this subtask?');">
+                    <form
+                        method="post"
+                        action="{% url 'delete_subtask' subtask.id %}"
+                        onsubmit="return confirm('Delete this subtask?');"
+                    >
+
                         {% csrf_token %}
-                        <button type="submit" class="delete">Delete</button>
+
+                        <button
+                            type="submit"
+                            class="delete"
+                        >
+                            Delete
+                        </button>
+
                     </form>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
+
         {% else %}
-        <p class="empty">No subtasks yet.</p>
+
+        <p class="empty">
+            No subtasks yet.
+        </p>
+
         {% endif %}
+
     </div>
 
 
-    <!-- NOTES -->
+    <!-- =====================================================
+         NOTES
+         ===================================================== -->
+
     <div class="section">
+
         <h2>Notes</h2>
 
         <div class="add-form">
+
             <h3>Add Note</h3>
 
             {% if tasks %}
-            <form method="post" action="{% url 'add_note' %}">
+
+            <form
+                method="post"
+                action="{% url 'add_note' %}"
+            >
+
                 {% csrf_token %}
 
                 <select name="task" required>
-                    <option value="">Select Task</option>
+
+                    <option value="">
+                        Select Task
+                    </option>
+
                     {% for task in tasks %}
-                    <option value="{{ task.id }}">{{ task.title }}</option>
+
+                    <option value="{{ task.id }}">
+                        {{ task.title }}
+                    </option>
+
                     {% endfor %}
+
                 </select>
 
-                <textarea name="content"
-                          placeholder="Write your note..."
-                          required></textarea>
+                <textarea
+                    name="content"
+                    placeholder="Write your note..."
+                    required
+                ></textarea>
 
-                <button type="submit">Add Note</button>
+                <button type="submit">
+                    Add Note
+                </button>
+
             </form>
+
             {% else %}
-            <p>Please create a Task first.</p>
+
+            <p>
+                Please create a Task first.
+            </p>
+
             {% endif %}
+
         </div>
 
+
         {% if notes %}
+
         <table>
+
             <tr>
                 <th>Task</th>
                 <th>Note</th>
@@ -508,169 +948,335 @@
             </tr>
 
             {% for note in notes %}
+
             <tr>
+
                 <td>{{ note.task.title }}</td>
+
                 <td>{{ note.content }}</td>
 
                 <td>
-                    <details>
-                        <summary>Edit</summary>
 
-                        <form method="post"
-                              action="{% url 'edit_note' note.id %}"
-                              class="edit-form">
+                    <details>
+
+                        <summary>
+                            Edit
+                        </summary>
+
+                        <form
+                            method="post"
+                            action="{% url 'edit_note' note.id %}"
+                            class="edit-form"
+                        >
+
                             {% csrf_token %}
 
                             <select name="task" required>
+
                                 {% for task in tasks %}
-                                <option value="{{ task.id }}"
-                                    {% if note.task.id == task.id %}selected{% endif %}>
+
+                                <option
+                                    value="{{ task.id }}"
+                                    {% if note.task.id == task.id %}selected{% endif %}
+                                >
                                     {{ task.title }}
                                 </option>
+
                                 {% endfor %}
+
                             </select>
 
-                            <textarea name="content" required>{{ note.content }}</textarea>
+                            <textarea
+                                name="content"
+                                required
+                            >{{ note.content }}</textarea>
 
-                            <button type="submit" class="edit">Save</button>
+                            <button
+                                type="submit"
+                                class="edit"
+                            >
+                                Save
+                            </button>
+
                         </form>
+
                     </details>
 
                     <br>
 
-                    <form method="post"
-                          action="{% url 'delete_note' note.id %}"
-                          onsubmit="return confirm('Delete this note?');">
+                    <form
+                        method="post"
+                        action="{% url 'delete_note' note.id %}"
+                        onsubmit="return confirm('Delete this note?');"
+                    >
+
                         {% csrf_token %}
-                        <button type="submit" class="delete">Delete</button>
+
+                        <button
+                            type="submit"
+                            class="delete"
+                        >
+                            Delete
+                        </button>
+
                     </form>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
+
         {% else %}
-        <p class="empty">No notes yet.</p>
+
+        <p class="empty">
+            No notes yet.
+        </p>
+
         {% endif %}
+
     </div>
 
 
-    <!-- CATEGORIES -->
+    <!-- =====================================================
+         CATEGORIES
+         ===================================================== -->
+
     <div class="section">
+
         <h2>Categories</h2>
 
         <div class="add-form">
-            <form method="post" action="{% url 'add_category' %}">
+
+            <form
+                method="post"
+                action="{% url 'add_category' %}"
+            >
+
                 {% csrf_token %}
-                <input type="text"
-                       name="name"
-                       placeholder="Category name"
-                       required>
-                <button type="submit">Add Category</button>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Category name"
+                    required
+                >
+
+                <button type="submit">
+                    Add Category
+                </button>
+
             </form>
+
         </div>
 
+
         {% if categories %}
+
         <table>
+
             <tr>
                 <th>Category</th>
                 <th>Actions</th>
             </tr>
 
             {% for category in categories %}
+
             <tr>
+
                 <td>{{ category.name }}</td>
 
                 <td>
-                    <details>
-                        <summary>Edit</summary>
 
-                        <form method="post"
-                              action="{% url 'edit_category' category.id %}"
-                              class="edit-form">
+                    <details>
+
+                        <summary>
+                            Edit
+                        </summary>
+
+                        <form
+                            method="post"
+                            action="{% url 'edit_category' category.id %}"
+                            class="edit-form"
+                        >
+
                             {% csrf_token %}
-                            <input type="text"
-                                   name="name"
-                                   value="{{ category.name }}"
-                                   required>
-                            <button type="submit" class="edit">Save</button>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ category.name }}"
+                                required
+                            >
+
+                            <button
+                                type="submit"
+                                class="edit"
+                            >
+                                Save
+                            </button>
+
                         </form>
+
                     </details>
 
                     <br>
 
-                    <form method="post"
-                          action="{% url 'delete_category' category.id %}"
-                          onsubmit="return confirm('Delete this category? Related tasks may also be deleted.');">
+                    <form
+                        method="post"
+                        action="{% url 'delete_category' category.id %}"
+                        onsubmit="return confirm('Delete this category? Related tasks may also be deleted.');"
+                    >
+
                         {% csrf_token %}
-                        <button type="submit" class="delete">Delete</button>
+
+                        <button
+                            type="submit"
+                            class="delete"
+                        >
+                            Delete
+                        </button>
+
                     </form>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
+
         {% else %}
-        <p class="empty">No categories yet.</p>
+
+        <p class="empty">
+            No categories yet.
+        </p>
+
         {% endif %}
+
     </div>
 
 
-    <!-- PRIORITIES -->
+    <!-- =====================================================
+         PRIORITIES
+         ===================================================== -->
+
     <div class="section">
+
         <h2>Priorities</h2>
 
         <div class="add-form">
-            <form method="post" action="{% url 'add_priority' %}">
+
+            <form
+                method="post"
+                action="{% url 'add_priority' %}"
+            >
+
                 {% csrf_token %}
-                <input type="text"
-                       name="name"
-                       placeholder="Priority name"
-                       required>
-                <button type="submit">Add Priority</button>
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Priority name"
+                    required
+                >
+
+                <button type="submit">
+                    Add Priority
+                </button>
+
             </form>
+
         </div>
 
+
         {% if priorities %}
+
         <table>
+
             <tr>
                 <th>Priority</th>
                 <th>Actions</th>
             </tr>
 
             {% for priority in priorities %}
+
             <tr>
+
                 <td>{{ priority.name }}</td>
 
                 <td>
-                    <details>
-                        <summary>Edit</summary>
 
-                        <form method="post"
-                              action="{% url 'edit_priority' priority.id %}"
-                              class="edit-form">
+                    <details>
+
+                        <summary>
+                            Edit
+                        </summary>
+
+                        <form
+                            method="post"
+                            action="{% url 'edit_priority' priority.id %}"
+                            class="edit-form"
+                        >
+
                             {% csrf_token %}
-                            <input type="text"
-                                   name="name"
-                                   value="{{ priority.name }}"
-                                   required>
-                            <button type="submit" class="edit">Save</button>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ priority.name }}"
+                                required
+                            >
+
+                            <button
+                                type="submit"
+                                class="edit"
+                            >
+                                Save
+                            </button>
+
                         </form>
+
                     </details>
 
                     <br>
 
-                    <form method="post"
-                          action="{% url 'delete_priority' priority.id %}"
-                          onsubmit="return confirm('Delete this priority? Related tasks may also be deleted.');">
+                    <form
+                        method="post"
+                        action="{% url 'delete_priority' priority.id %}"
+                        onsubmit="return confirm('Delete this priority? Related tasks may also be deleted.');"
+                    >
+
                         {% csrf_token %}
-                        <button type="submit" class="delete">Delete</button>
+
+                        <button
+                            type="submit"
+                            class="delete"
+                        >
+                            Delete
+                        </button>
+
                     </form>
+
                 </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
+
         {% else %}
-        <p class="empty">No priorities yet.</p>
+
+        <p class="empty">
+            No priorities yet.
+        </p>
+
         {% endif %}
+
     </div>
 
 </div>

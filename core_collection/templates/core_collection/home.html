@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangarin - Task & To-Do Manager</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6f4;
+            color: #1f2933;
+        }
+
+        .navbar {
+            background: #ffffff;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8e4;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box {
+            width: 45px;
+            height: 45px;
+            background: #176b45;
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            color: #143d2a;
+        }
+
+        .logo p {
+            font-size: 12px;
+            color: #7b857e;
+        }
+
+        .admin-btn {
+            background: #176b45;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .hero {
+            margin-top: 35px;
+            padding: 55px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #123e2a, #218054);
+            color: white;
+        }
+
+        .hero-small {
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            color: #a9ddc1;
+            margin-bottom: 12px;
+        }
+
+        .hero h2 {
+            font-size: 43px;
+            line-height: 1.12;
+            max-width: 700px;
+        }
+
+        .hero h2 span {
+            color: #a9ddc1;
+        }
+
+        .hero p {
+            margin-top: 18px;
+            max-width: 650px;
+            color: #d8eee2;
+            font-size: 16px;
+        }
+
+        .stats {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat {
+            background: white;
+            border: 1px solid #e2e8e4;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.03);
+        }
+
+        .stat-title {
+            color: #7b857e;
+            font-size: 13px;
+        }
+
+        .stat-number {
+            margin-top: 5px;
+            font-size: 29px;
+            font-weight: bold;
+            color: #176b45;
+        }
+
+        .content {
+            margin-top: 22px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e2e8e4;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.03);
+        }
+
+        .card-label {
+            color: #176b45;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+
+        .card h3 {
+            margin-top: 5px;
+            font-size: 25px;
+            color: #17231c;
+        }
+
+        .task {
+            margin-top: 15px;
+            border: 1px solid #e6ebe8;
+            border-radius: 13px;
+            padding: 17px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .task-left {
+            display: flex;
+            gap: 13px;
+        }
+
+        .check {
+            min-width: 32px;
+            height: 32px;
+            background: #e7f4ec;
+            color: #176b45;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .task h4 {
+            font-size: 16px;
+            color: #243229;
+        }
+
+        .task p {
+            margin-top: 4px;
+            color: #7b857e;
+            font-size: 13px;
+        }
+
+        .meta {
+            margin-top: 9px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .meta span {
+            background: #f0f4f1;
+            color: #5d6a62;
+            padding: 4px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        .status {
+            align-self: flex-start;
+            background: #fff2c9;
+            color: #906f00;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .overview {
+            background: #123e2a;
+            color: white;
+        }
+
+        .overview .card-label {
+            color: #a9ddc1;
+        }
+
+        .overview h3 {
+            color: white;
+        }
+
+        .overview-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 19px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+
+        .number {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(255,255,255,.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .overview-row strong {
+            font-size: 14px;
+        }
+
+        .overview-row p {
+            margin-top: 2px;
+            color: #bdd8c8;
+            font-size: 12px;
+        }
+
+        .manage-btn {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            padding: 12px;
+            background: #a9ddc1;
+            color: #123e2a;
+            border-radius: 9px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 15px;
+            color: #7b857e;
+        }
+
+        footer {
+            background: white;
+            border-top: 1px solid #e2e8e4;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            color: #7b857e;
+            font-size: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 34px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 92%;
+            }
+
+            .hero {
+                padding: 35px 25px;
+            }
+
+            .hero h2 {
+                font-size: 29px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .task {
+                flex-direction: column;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-box">✓</div>
+        <div>
+            <h1>Hangarin</h1>
+            <p>Task & To-Do Manager</p>
+        </div>
+    </div>
+
+    <a href="/admin/" class="admin-btn">Admin Panel</a>
+</nav>
+
+<main class="container">
+
+    <section class="hero">
+        <div class="hero-small">YOUR DAILY ORGANIZER</div>
+
+        <h2>
+            Plan your tasks.<br>
+            Achieve your <span>hangarin.</span>
+        </h2>
+
+        <p>
+            Organize your daily tasks, priorities, notes, and subtasks
+            in one simple and organized workspace.
+        </p>
+    </section>
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-title">Total Tasks</div>
+            <div class="stat-number">{{ task_count }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">Notes</div>
+            <div class="stat-number">{{ note_count }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">SubTasks</div>
+            <div class="stat-number">{{ subtask_count }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">Categories</div>
+            <div class="stat-number">{{ category_count }}</div>
+        </div>
+
+    </section>
+
+    <section class="content">
+
+        <div class="card">
+
+            <div class="card-label">TASK OVERVIEW</div>
+            <h3>Your Tasks</h3>
+
+            {% if tasks %}
+
+                {% for task in tasks %}
+
+                <div class="task">
+
+                    <div class="task-left">
+
+                        <div class="check">
+                            {% if task.status == "Completed" %}
+                                ✓
+                            {% else %}
+                                ○
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <h4>{{ task.title }}</h4>
+
+                            <p>
+                                {{ task.description|truncatechars:100 }}
+                            </p>
+
+                            <div class="meta">
+                                <span>{{ task.category.name }}</span>
+                                <span>{{ task.priority.name }}</span>
+                                <span>{{ task.deadline|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="status">
+                        {{ task.status }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty">
+                    <h4>No tasks yet</h4>
+                    <p>Add tasks through the admin panel.</p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="card overview">
+
+            <div class="card-label">HANGARIN OVERVIEW</div>
+            <h3>Organize Everything</h3>
+
+            <div class="overview-row">
+                <div class="number">{{ priority_count }}</div>
+                <div>
+                    <strong>Priorities</strong>
+                    <p>Set the importance of tasks.</p>
+                </div>
+            </div>
+
+            <div class="overview-row">
+                <div class="number">{{ category_count }}</div>
+                <div>
+                    <strong>Categories</strong>
+                    <p>Group tasks by purpose.</p>
+                </div>
+            </div>
+
+            <div class="overview-row">
+                <div class="number">{{ note_count }}</div>
+                <div>
+                    <strong>Notes</strong>
+                    <p>Keep useful information.</p>
+                </div>
+            </div>
+
+            <div class="overview-row">
+                <div class="number">{{ subtask_count }}</div>
+                <div>
+                    <strong>SubTasks</strong>
+                    <p>Break large goals into steps.</p>
+                </div>
+            </div>
+
+            <a href="/admin/" class="manage-btn">
+                Manage Tasks
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <span>Hangarin: Task & To-Do Manager</span>
+    <span>Built with Django</span>
+</footer>
+
+</body>
+</html>
