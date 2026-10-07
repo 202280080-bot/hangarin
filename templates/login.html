@@ -1,144 +1,254 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hangarin - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Hangarin</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f2f5f3;
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
         }
 
-        .login-box {
+        .login-container {
+            width: 100%;
+            max-width: 420px;
             background: white;
-            width: 350px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            padding: 40px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.20);
         }
 
-        h1 {
+        .logo {
             text-align: center;
-            color: #006633;
+            margin-bottom: 10px;
         }
 
-        .subtitle {
+        .logo h1 {
+            margin: 0;
+            color: #333;
+            font-size: 32px;
+        }
+
+        .logo p {
+            margin-top: 8px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 14px;
             text-align: center;
-            color: #666;
-            margin-bottom: 25px;
         }
 
-        label {
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+
+            font-size: 15px;
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #667eea;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            background: #5568d8;
+        }
+
+        .register-section {
+            text-align: center;
+            margin-top: 25px;
+
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-section a {
+            color: #667eea;
+            text-decoration: none;
             font-weight: bold;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .register-section a:hover {
+            text-decoration: underline;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 25px;
-            background: #006633;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #004d26;
-        }
-
-        .error {
-            background: #ffe5e5;
-            color: #cc0000;
-            padding: 10px;
-            border-radius: 5px;
+        .footer {
             text-align: center;
-            margin-bottom: 15px;
+            margin-top: 25px;
+
+            color: #999;
+            font-size: 12px;
         }
-
-       .register-link {
-           text-align: center;
-           margin-top: 20px;
-           color: #666;
-        }
-
-      .register-link a {
-          color: #006633;
-          font-weight: bold;
-          text-decoration: none;
-       }
-
-      .register-link a:hover {
-         text-decoration: underline;
-       }
     </style>
 </head>
 
 <body>
 
-<div class="login-box">
+    <div class="login-container">
 
-    <h1>Hangarin</h1>
-
-    <p class="subtitle">
-        Task & To-Do Manager
-    </p>
-
-    {% if error %}
-        <div class="error">
-            {{ error }}
+        <div class="logo">
+            <h1>Hangarin</h1>
+            <p>Task Management System</p>
         </div>
-    {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
 
-        <label>Username</label>
+        <!-- Django Messages -->
+        {% if messages %}
+            <div class="messages">
 
-        <input
-            type="text"
-            name="username"
-            placeholder="Enter username"
-            required
-        >
+                {% for message in messages %}
 
-        <label>Password</label>
+                    <div class="message">
+                        {{ message }}
+                    </div>
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            required
-        >
+                {% endfor %}
 
-        <button type="submit">
-            Login
-        </button>
+            </div>
+        {% endif %}
 
-       <p class="register-link">
-    Don't have an account?
-    <a href="{% url 'register' %}">Create Account</a>
-      </p>
 
-    </form>
+        <!-- LOGIN FORM -->
+        <form method="POST" action="{% url 'login' %}">
 
-</div>
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- REGISTER -->
+        <div class="register-section">
+
+            <span>
+                Don't have an account?
+            </span>
+
+            <a href="{% url 'register' %}">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <!-- FOOTER -->
+        <div class="footer">
+            © 2026 Hangarin Task Management System
+        </div>
+
+    </div>
 
 </body>
 </html>
+```
