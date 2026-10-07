@@ -11,134 +11,403 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --cyan: #06b6d4;
+            --dark: #1e1b4b;
+            --text: #374151;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --white: #ffffff;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        /* ========================================
+           BODY
+        ======================================== */
+
         body {
             margin: 0;
             min-height: 100vh;
 
-            font-family: Arial, Helvetica, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(255,255,255,0.18),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(6,182,212,0.20),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #4338ca 0%,
+                    #6366f1 45%,
+                    #8b5cf6 100%
+                );
 
             display: flex;
             justify-content: center;
             align-items: center;
 
-            padding: 20px;
+            padding: 30px;
+
+            position: relative;
+
+            overflow: hidden;
         }
+
+
+        /* ========================================
+           BACKGROUND CIRCLES
+        ======================================== */
+
+        body::before {
+            content: "";
+
+            position: absolute;
+
+            width: 360px;
+            height: 360px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border-radius: 50%;
+
+            top: -140px;
+            left: -120px;
+        }
+
+        body::after {
+            content: "";
+
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border-radius: 50%;
+
+            bottom: -230px;
+            right: -160px;
+        }
+
+
+        /* ========================================
+           REGISTER CARD
+        ======================================== */
 
         .register-container {
+
+            position: relative;
+
+            z-index: 2;
+
             width: 100%;
-            max-width: 420px;
+            max-width: 460px;
 
-            background: white;
+            background:
+                rgba(255,255,255,0.97);
 
-            padding: 40px;
+            padding: 42px;
 
-            border-radius: 15px;
+            border-radius: 24px;
+
+            border:
+                1px solid rgba(255,255,255,0.7);
 
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.20);
+                0 25px 60px rgba(30,27,75,0.30),
+                0 8px 25px rgba(0,0,0,0.10);
+
+            animation:
+                cardAppear 0.7s ease;
         }
 
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(25px)
+                    scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* ========================================
+           LOGO
+        ======================================== */
+
         .logo {
+
             text-align: center;
-            margin-bottom: 25px;
+
+            margin-bottom: 28px;
+        }
+
+        .logo-icon {
+
+            width: 68px;
+            height: 68px;
+
+            margin:
+                0 auto 14px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 19px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            color: white;
+
+            font-size: 33px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 10px 25px rgba(99,102,241,0.35);
         }
 
         .logo h1 {
+
             margin: 0;
 
-            color: #333;
+            color: var(--dark);
 
             font-size: 32px;
+
+            letter-spacing: -1px;
+        }
+
+        .logo h1 span {
+
+            color: var(--primary);
         }
 
         .logo p {
-            margin-top: 8px;
 
-            color: #777;
+            margin:
+                8px 0 0;
+
+            color: var(--muted);
 
             font-size: 14px;
         }
 
-        /* =========================
+
+        /* ========================================
            MESSAGES
-        ========================= */
+        ======================================== */
 
         .messages {
+
             margin-bottom: 20px;
         }
 
         .message {
-            padding: 12px;
 
-            border-radius: 8px;
+            padding:
+                13px 15px;
 
-            background: #fee2e2;
-            color: #991b1b;
+            border-radius: 10px;
 
             font-size: 14px;
 
-            text-align: center;
+            margin-bottom: 8px;
         }
 
-        /* =========================
+        .message.error {
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+            border-left:
+                4px solid var(--danger);
+        }
+
+        .message.success {
+
+            background: #ecfdf5;
+
+            color: #047857;
+
+            border-left:
+                4px solid var(--success);
+        }
+
+        .message.warning {
+
+            background: #fffbeb;
+
+            color: #92400e;
+
+            border-left:
+                4px solid #f59e0b;
+        }
+
+
+        /* ========================================
            FORM
-        ========================= */
+        ======================================== */
 
         .form-group {
-            margin-bottom: 20px;
+
+            margin-bottom: 19px;
         }
 
         .form-group label {
+
             display: block;
 
             margin-bottom: 8px;
 
-            color: #333;
-
-            font-weight: bold;
+            color: var(--text);
 
             font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .input-wrapper {
+
+            position: relative;
+        }
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            font-size: 17px;
+
+            color: #9ca3af;
+
+            pointer-events: none;
         }
 
         .form-group input {
+
             width: 100%;
 
-            padding: 13px 14px;
+            padding:
+                14px 15px 14px 45px;
 
-            border: 1px solid #d1d5db;
+            border:
+                2px solid var(--border);
 
-            border-radius: 8px;
+            border-radius: 11px;
+
+            background: #f9fafb;
+
+            color: var(--text);
 
             font-size: 15px;
 
             outline: none;
 
-            transition: 0.2s;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
+        }
+
+        .form-group input::placeholder {
+
+            color: #9ca3af;
+        }
+
+        .form-group input:hover {
+
+            background: white;
         }
 
         .form-group input:focus {
-            border-color: #667eea;
+
+            background: white;
+
+            border-color:
+                var(--primary);
 
             box-shadow:
-                0 0 0 3px rgba(102, 126, 234, 0.15);
+                0 0 0 4px
+                rgba(99,102,241,0.12);
         }
 
-        /* =========================
+
+        /* ========================================
+           PASSWORD NOTE
+        ======================================== */
+
+        .password-note {
+
+            margin-top: 7px;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+
+        /* ========================================
            REGISTER BUTTON
-        ========================= */
+        ======================================== */
 
         .register-button {
+
             width: 100%;
 
-            padding: 13px;
+            padding: 14px;
 
             border: none;
 
-            border-radius: 8px;
+            border-radius: 11px;
 
-            background: #667eea;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
 
             color: white;
 
@@ -148,68 +417,123 @@
 
             cursor: pointer;
 
-            transition: 0.2s;
+            box-shadow:
+                0 8px 20px
+                rgba(99,102,241,0.30);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
         }
 
         .register-button:hover {
-            background: #5568d8;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(99,102,241,0.40);
         }
 
-        /* =========================
-           LOGIN LINK
-        ========================= */
+        .register-button:active {
+
+            transform:
+                translateY(0);
+        }
+
+
+        /* ========================================
+           LOGIN SECTION
+        ======================================== */
 
         .login-section {
+
             text-align: center;
 
             margin-top: 25px;
 
             padding-top: 20px;
 
-            border-top: 1px solid #eee;
+            border-top:
+                1px solid #e5e7eb;
 
-            color: #666;
+            color: var(--muted);
 
             font-size: 14px;
         }
 
         .login-section a {
-            color: #667eea;
+
+            color:
+                var(--primary);
 
             text-decoration: none;
 
             font-weight: bold;
+
+            margin-left: 4px;
+
+            transition:
+                color 0.2s;
         }
 
         .login-section a:hover {
-            text-decoration: underline;
+
+            color:
+                var(--secondary);
+
+            text-decoration:
+                underline;
         }
 
-        /* =========================
+
+        /* ========================================
            FOOTER
-        ========================= */
+        ======================================== */
 
         .footer {
+
             text-align: center;
 
-            margin-top: 25px;
+            margin-top: 22px;
 
-            color: #999;
+            color: #9ca3af;
 
             font-size: 12px;
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
 
-        @media (max-width: 480px) {
+        /* ========================================
+           MOBILE
+        ======================================== */
+
+        @media (max-width: 500px) {
+
+            body {
+
+                padding: 18px;
+            }
 
             .register-container {
-                padding: 30px 25px;
+
+                padding:
+                    32px 25px;
+
+                border-radius:
+                    20px;
+            }
+
+            .logo-icon {
+
+                width: 60px;
+                height: 60px;
+
+                font-size: 29px;
             }
 
             .logo h1 {
+
                 font-size: 28px;
             }
         }
@@ -220,24 +544,31 @@
 
     <div class="register-container">
 
-        <!-- =========================
-             HEADER
-        ========================= -->
+
+        <!-- =====================================
+             LOGO
+        ====================================== -->
 
         <div class="logo">
 
-            <h1>Hangarin</h1>
+            <div class="logo-icon">
+                H
+            </div>
+
+            <h1>
+                Hang<span>arin</span>
+            </h1>
 
             <p>
-                Create your account
+                Create your task management account
             </p>
 
         </div>
 
 
-        <!-- =========================
-             MESSAGES
-        ========================= -->
+        <!-- =====================================
+             DJANGO MESSAGES
+        ====================================== -->
 
         {% if messages %}
 
@@ -245,7 +576,7 @@
 
                 {% for message in messages %}
 
-                    <div class="message">
+                    <div class="message {{ message.tags }}">
                         {{ message }}
                     </div>
 
@@ -256,9 +587,9 @@
         {% endif %}
 
 
-        <!-- =========================
+        <!-- =====================================
              REGISTER FORM
-        ========================= -->
+        ====================================== -->
 
         <form
             method="POST"
@@ -276,14 +607,22 @@
                     Username
                 </label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    autocomplete="username"
-                    required
-                >
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
 
             </div>
 
@@ -296,14 +635,26 @@
                     Password
                 </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    autocomplete="new-password"
-                    required
-                >
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+                <div class="password-note">
+                    Use a strong password to keep your account secure.
+                </div>
 
             </div>
 
@@ -316,14 +667,22 @@
                     Confirm Password
                 </label>
 
-                <input
-                    type="password"
-                    id="confirm_password"
-                    name="confirm_password"
-                    placeholder="Confirm your password"
-                    autocomplete="new-password"
-                    required
-                >
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔐
+                    </span>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
 
             </div>
 
@@ -334,15 +693,15 @@
                 type="submit"
                 class="register-button"
             >
-                Create Account
+                Create My Account
             </button>
 
         </form>
 
 
-        <!-- =========================
+        <!-- =====================================
              LOGIN LINK
-        ========================= -->
+        ====================================== -->
 
         <div class="login-section">
 
@@ -357,9 +716,9 @@
         </div>
 
 
-        <!-- =========================
+        <!-- =====================================
              FOOTER
-        ========================= -->
+        ====================================== -->
 
         <div class="footer">
 

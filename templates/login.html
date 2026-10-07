@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,137 +11,456 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --dark: #1e1b4b;
+            --text: #374151;
+            --muted: #6b7280;
+            --white: #ffffff;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(255,255,255,0.18) 0,
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(6,182,212,0.20) 0,
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #4338ca 0%,
+                    #6366f1 45%,
+                    #8b5cf6 100%
+                );
 
             display: flex;
             justify-content: center;
             align-items: center;
+
+            padding: 30px;
+
+            overflow: hidden;
+
+            position: relative;
         }
+
+
+        /* ========================================
+           DECORATIVE BACKGROUND
+        ======================================== */
+
+        body::before {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            background: rgba(255,255,255,0.08);
+
+            border-radius: 50%;
+
+            top: -120px;
+            left: -100px;
+
+            filter: blur(2px);
+        }
+
+        body::after {
+            content: "";
+
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            background: rgba(255,255,255,0.06);
+
+            border-radius: 50%;
+
+            bottom: -220px;
+            right: -150px;
+        }
+
+
+        /* ========================================
+           LOGIN CARD
+        ======================================== */
 
         .login-container {
+
+            position: relative;
+
+            z-index: 2;
+
             width: 100%;
-            max-width: 420px;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
+            max-width: 440px;
+
+            background:
+                rgba(255,255,255,0.96);
+
+            padding: 45px;
+
+            border-radius: 24px;
 
             box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.20);
+                0 25px 60px rgba(30,27,75,0.30),
+                0 8px 25px rgba(0,0,0,0.10);
+
+            border: 1px solid rgba(255,255,255,0.7);
+
+            animation: cardAppear 0.7s ease;
         }
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+        }
+
+
+        /* ========================================
+           LOGO
+        ======================================== */
 
         .logo {
             text-align: center;
-            margin-bottom: 10px;
+
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            color: white;
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 10px 25px rgba(99,102,241,0.35);
         }
 
         .logo h1 {
+
             margin: 0;
-            color: #333;
-            font-size: 32px;
+
+            color: var(--dark);
+
+            font-size: 34px;
+
+            letter-spacing: -1px;
+        }
+
+        .logo h1 span {
+            color: var(--primary);
         }
 
         .logo p {
-            margin-top: 8px;
-            color: #777;
+
+            margin: 8px 0 0;
+
+            color: var(--muted);
+
             font-size: 14px;
         }
 
+
+        /* ========================================
+           MESSAGES
+        ======================================== */
+
         .messages {
+
             margin-bottom: 20px;
         }
 
         .message {
-            padding: 12px;
-            border-radius: 8px;
-            background: #fee2e2;
-            color: #991b1b;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            background: #fef2f2;
+
+            color: #b91c1c;
+
+            border-left: 4px solid #ef4444;
+
             font-size: 14px;
-            text-align: center;
+
+            text-align: left;
         }
 
+
+        /* ========================================
+           FORM
+        ======================================== */
+
         .form-group {
+
             margin-bottom: 20px;
         }
 
         .form-group label {
+
             display: block;
+
             margin-bottom: 8px;
-            color: #333;
+
+            color: var(--text);
+
             font-weight: bold;
+
             font-size: 14px;
         }
 
-        .form-group input {
-            width: 100%;
-            padding: 13px 14px;
+        .input-wrapper {
 
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            position: relative;
+        }
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 17px;
+
+            color: #9ca3af;
+
+            pointer-events: none;
+        }
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 14px 15px 14px 45px;
+
+            border: 2px solid #e5e7eb;
+
+            border-radius: 11px;
 
             font-size: 15px;
+
+            color: var(--text);
+
+            background: #f9fafb;
+
             outline: none;
 
-            transition: 0.2s;
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s,
+                background 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-group input:hover {
+            background: white;
         }
 
         .form-group input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+
+            background: white;
+
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px rgba(99,102,241,0.12);
         }
 
+
+        /* ========================================
+           LOGIN BUTTON
+        ======================================== */
+
         .login-button {
+
             width: 100%;
-            padding: 13px;
+
+            padding: 14px;
 
             border: none;
-            border-radius: 8px;
 
-            background: #667eea;
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
             color: white;
 
             font-size: 16px;
+
             font-weight: bold;
 
             cursor: pointer;
 
-            transition: 0.2s;
+            box-shadow:
+                0 8px 20px rgba(99,102,241,0.30);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
         }
 
         .login-button:hover {
-            background: #5568d8;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(99,102,241,0.40);
         }
 
+        .login-button:active {
+
+            transform: translateY(0);
+        }
+
+
+        /* ========================================
+           REGISTER
+        ======================================== */
+
         .register-section {
+
             text-align: center;
-            margin-top: 25px;
 
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+            margin-top: 28px;
 
-            color: #666;
+            padding-top: 22px;
+
+            border-top: 1px solid #e5e7eb;
+
+            color: var(--muted);
+
             font-size: 14px;
         }
 
         .register-section a {
-            color: #667eea;
+
+            color: var(--primary);
+
             text-decoration: none;
+
             font-weight: bold;
+
+            margin-left: 4px;
+
+            transition: color 0.2s;
         }
 
         .register-section a:hover {
+
+            color: var(--secondary);
+
             text-decoration: underline;
         }
 
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+
         .footer {
+
             text-align: center;
+
             margin-top: 25px;
 
-            color: #999;
+            color: #9ca3af;
+
             font-size: 12px;
+        }
+
+
+        /* ========================================
+           MOBILE
+        ======================================== */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 18px;
+            }
+
+            .login-container {
+
+                padding: 32px 25px;
+
+                border-radius: 20px;
+            }
+
+            .logo-icon {
+
+                width: 60px;
+                height: 60px;
+
+                font-size: 29px;
+            }
+
+            .logo h1 {
+
+                font-size: 29px;
+            }
+
         }
     </style>
 </head>
@@ -151,14 +469,33 @@
 
     <div class="login-container">
 
+        <!-- ========================================
+             LOGO
+        ======================================== -->
+
         <div class="logo">
-            <h1>Hangarin</h1>
-            <p>Task Management System</p>
+
+            <div class="logo-icon">
+                H
+            </div>
+
+            <h1>
+                Hang<span>arin</span>
+            </h1>
+
+            <p>
+                Task Management System
+            </p>
+
         </div>
 
 
-        <!-- Django Messages -->
+        <!-- ========================================
+             DJANGO MESSAGES
+        ======================================== -->
+
         {% if messages %}
+
             <div class="messages">
 
                 {% for message in messages %}
@@ -170,65 +507,94 @@
                 {% endfor %}
 
             </div>
+
         {% endif %}
 
 
-        <!-- LOGIN FORM -->
-        <form method="POST" action="{% url 'login' %}">
+        <!-- ========================================
+             LOGIN FORM
+        ======================================== -->
+
+        <form
+            method="POST"
+            action="{% url 'login' %}"
+        >
 
             {% csrf_token %}
 
 
             <!-- USERNAME -->
+
             <div class="form-group">
 
                 <label for="username">
                     Username
                 </label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    autocomplete="username"
-                    required
-                >
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        👤
+                    </span>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
 
             </div>
 
 
             <!-- PASSWORD -->
+
             <div class="form-group">
 
                 <label for="password">
                     Password
                 </label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    autocomplete="current-password"
-                    required
-                >
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
 
             </div>
 
 
             <!-- LOGIN BUTTON -->
+
             <button
                 type="submit"
                 class="login-button"
             >
-                Login
+                Login to Hangarin
             </button>
 
         </form>
 
 
-        <!-- REGISTER -->
+        <!-- ========================================
+             REGISTER
+        ======================================== -->
+
         <div class="register-section">
 
             <span>
@@ -242,13 +608,17 @@
         </div>
 
 
-        <!-- FOOTER -->
+        <!-- ========================================
+             FOOTER
+        ======================================== -->
+
         <div class="footer">
+
             © 2026 Hangarin Task Management System
+
         </div>
 
     </div>
 
 </body>
 </html>
-```
