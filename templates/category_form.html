@@ -4,139 +4,665 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        {% if category %}Edit Category{% else %}Add Category{% endif %} | Hangarin
-    </title>
+    <title>{% if category %}Edit Category{% else %}Add Category{% endif %} - Hangarin</title>
 
     <style>
         * {
             box-sizing: border-box;
+        }
+
+        html,
+        body {
             margin: 0;
             padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 40px 20px;
+
+            background:
+                radial-gradient(
+                    circle at 8% 15%,
+                    rgba(255,255,255,0.55) 0 70px,
+                    transparent 71px
+                ),
+                radial-gradient(
+                    circle at 92% 12%,
+                    rgba(255,220,90,0.60) 0 110px,
+                    transparent 111px
+                ),
+                radial-gradient(
+                    circle at 12% 85%,
+                    rgba(130,255,190,0.45) 0 130px,
+                    transparent 131px
+                ),
+                radial-gradient(
+                    circle at 90% 82%,
+                    rgba(255,120,210,0.45) 0 150px,
+                    transparent 151px
+                ),
+                linear-gradient(
+                    135deg,
+                    #d9f7ff 0%,
+                    #dcecff 28%,
+                    #e6e2ff 55%,
+                    #e2f7ff 78%,
+                    #fff1cf 100%
+                );
+
+            overflow-x: hidden;
+
+            color: #173b69;
+        }
+
+        /* =========================
+           BACKGROUND
+           ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+
+            z-index: 0;
+        }
+
+        .circle {
+            position: absolute;
+
+            border-radius: 50%;
+        }
+
+        .circle-one {
+            width: 280px;
+            height: 280px;
+
+            background: rgba(56,189,248,0.25);
+
+            top: -100px;
+            left: 170px;
+        }
+
+        .circle-two {
+            width: 230px;
+            height: 230px;
+
+            background: rgba(255,214,75,0.35);
+
+            top: 50px;
+            right: -70px;
+        }
+
+        .circle-three {
+            width: 300px;
+            height: 300px;
+
+            background: rgba(80,220,170,0.22);
+
+            bottom: -120px;
+            left: -80px;
+        }
+
+        .circle-four {
+            width: 300px;
+            height: 300px;
+
+            background: rgba(245,90,205,0.22);
+
+            bottom: -100px;
+            right: -70px;
+        }
+
+        .shape {
+            position: absolute;
+
+            border-radius: 28px;
+
+            opacity: 0.60;
+        }
+
+        .shape-one {
+            width: 100px;
+            height: 100px;
+
+            background: #ffd85a;
+
+            top: 220px;
+            left: 40px;
+
+            transform: rotate(18deg);
+        }
+
+        .shape-two {
+            width: 90px;
+            height: 90px;
+
+            background: #ff8fd4;
+
+            top: 300px;
+            right: 55px;
+
+            transform: rotate(-15deg);
+        }
+
+        .shape-three {
+            width: 80px;
+            height: 80px;
+
+            background: #69e6a5;
+
+            bottom: 100px;
+            right: 150px;
+
+            transform: rotate(25deg);
+        }
+
+        /* =========================
+           PAGE
+           ========================= */
+
+        .page {
+            position: relative;
+
+            z-index: 1;
+
+            min-height: 100vh;
+
+            padding: 35px 20px 60px;
         }
 
         .container {
             width: 100%;
-            max-width: 550px;
+
+            max-width: 900px;
+
             margin: 0 auto;
         }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 35px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+        /* =========================
+           BRAND
+           ========================= */
+
+        .brand {
+            text-align: center;
+
+            margin-bottom: 25px;
         }
 
-        .header {
-            text-align: center;
+        .brand-icon {
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd43b,
+                    #ff9f1c
+                );
+
+            color: #ffffff;
+
+            font-size: 38px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 12px 25px rgba(255,159,28,0.30);
+        }
+
+        .brand h1 {
+            margin: 0;
+
+            font-size: clamp(38px, 7vw, 68px);
+
+            font-weight: 900;
+
+            letter-spacing: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #1463b9,
+                    #168aad,
+                    #2563eb
+                );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .brand p {
+            margin: 5px 0 0;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            color: #28618f;
+
+            letter-spacing: 1px;
+        }
+
+        /* =========================
+           QUOTE CARDS
+           ========================= */
+
+        .decor-row {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .quote-card {
+            padding: 18px 22px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.72);
+
+            border: 1px solid rgba(255,255,255,0.85);
+
+            box-shadow:
+                0 10px 30px rgba(30,90,140,0.10);
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #28577c;
+        }
+
+        .quote-card.left {
+            border-left: 7px solid #38bdf8;
+        }
+
+        .quote-card.right {
+            border-left: 7px solid #22c55e;
+        }
+
+        /* =========================
+           MAIN CARD
+           ========================= */
+
+        .card {
+            width: 100%;
+
+            background: rgba(255,255,255,0.97);
+
+            border: 1px solid rgba(255,255,255,0.90);
+
+            border-radius: 28px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 25px 70px rgba(30,70,120,0.20);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .card-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
             margin-bottom: 30px;
         }
 
-        .logo {
+        .add-icon {
             width: 60px;
             height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+
+            flex-shrink: 0;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #2563eb
+                );
+
+            color: #ffffff;
+
+            font-size: 31px;
+
             font-weight: bold;
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,0.30);
         }
 
-        h1 {
-            color: #222;
-            font-size: 28px;
-            margin-bottom: 8px;
+        .card-header h2 {
+            margin: 0 0 5px;
+
+            font-size: 30px;
+
+            color: #173b69;
         }
 
-        .subtitle {
-            color: #777;
+        .card-header p {
+            margin: 0;
+
+            color: #70849a;
+
             font-size: 14px;
         }
 
-        .form-group {
+        /* =========================
+           MESSAGES
+           ========================= */
+
+        .message {
+            padding: 13px 16px;
+
             margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+            border: 1px solid #fecaca;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           FORM
+           ========================= */
+
+        .form-group {
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
+
             margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
+
+            color: #234d74;
+
             font-size: 14px;
+
+            font-weight: 800;
         }
 
         input {
             width: 100%;
-            padding: 14px 15px;
-            border: 1px solid #ddd;
+
+            padding: 15px;
+
+            border: 2px solid #d8e6f1;
+
             border-radius: 12px;
-            font-size: 15px;
+
+            background: #ffffff;
+
+            color: #1f2937;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            font-size: 16px;
+
             outline: none;
-            transition: 0.2s;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input:hover {
+            border-color: #9fc5df;
         }
 
         input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+            border-color: #0ea5e9;
+
+            box-shadow:
+                0 0 0 4px rgba(14,165,233,0.12);
         }
+
+        input::placeholder {
+            color: #9aaebe;
+        }
+
+        .category-hint {
+            margin-top: 10px;
+
+            padding: 13px 15px;
+
+            border-radius: 11px;
+
+            background: #f0f9ff;
+
+            border: 1px solid #bae6fd;
+
+            color: #075985;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .category-examples {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-top: 12px;
+        }
+
+        .example {
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .school {
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+        .work {
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .personal {
+            background: #fce7f3;
+
+            color: #9d174d;
+        }
+
+        .project {
+            background: #ede9fe;
+
+            color: #6d28d9;
+        }
+
+        /* =========================
+           BUTTONS
+           ========================= */
 
         .buttons {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+        .button {
             display: flex;
-            gap: 12px;
-            margin-top: 28px;
-        }
 
-        .btn {
-            flex: 1;
-            text-decoration: none;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 18px;
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 52px;
+
+            border-radius: 13px;
+
             font-size: 15px;
-            font-weight: bold;
+
+            font-weight: 800;
+
+            text-decoration: none;
+
             cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .back {
+            background: #f2f6f9;
+
+            color: #40566b;
+
+            border: 2px solid #dce6ed;
+        }
+
+        .back:hover {
+            background: #e9f0f5;
+        }
+
+        .submit {
+            border: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0ea5e9,
+                    #2563eb
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 10px 22px rgba(37,99,235,0.28);
+        }
+
+        .submit:hover {
+            box-shadow:
+                0 14px 28px rgba(37,99,235,0.36);
+        }
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        .footer {
             text-align: center;
-            transition: 0.2s;
+
+            margin-top: 25px;
+
+            color: #52708b;
+
+            font-size: 13px;
+
+            font-weight: bold;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
+        /* =========================
+           RESPONSIVE
+           ========================= */
 
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
+        @media (max-width: 700px) {
 
-        .btn-secondary {
-            background: #f1f3f7;
-            color: #444;
-        }
+            .page {
+                padding: 25px 12px 40px;
+            }
 
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-
-        @media (max-width: 600px) {
             .card {
-                padding: 25px 20px;
+                padding: 25px 18px;
+
+                border-radius: 20px;
+            }
+
+            .brand h1 {
+                font-size: 45px;
+            }
+
+            .brand p {
+                font-size: 14px;
+            }
+
+            .decor-row {
+                grid-template-columns: 1fr;
             }
 
             .buttons {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                align-items: flex-start;
+            }
+
+            .card-header h2 {
+                font-size: 24px;
+            }
+
+            .add-icon {
+                width: 52px;
+                height: 52px;
+
+                font-size: 28px;
+            }
+
+            .shape-one,
+            .shape-two,
+            .shape-three {
+                opacity: 0.25;
             }
         }
     </style>
@@ -144,69 +670,210 @@
 
 <body>
 
-<div class="container">
+    <!-- BACKGROUND -->
 
-    <div class="card">
+    <div class="background">
 
-        <div class="header">
-            <div class="logo">H</div>
+        <div class="circle circle-one"></div>
+        <div class="circle circle-two"></div>
+        <div class="circle circle-three"></div>
+        <div class="circle circle-four"></div>
 
-            <h1>
-                {% if category %}
-                    Edit Category
-                {% else %}
-                    Add Category
-                {% endif %}
-            </h1>
-
-            <p class="subtitle">
-                {% if category %}
-                    Update your task category
-                {% else %}
-                    Create a new task category
-                {% endif %}
-            </p>
-        </div>
-
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="name">Category Name</label>
-
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value="{% if category %}{{ category.name }}{% endif %}"
-                    placeholder="Example: School, Personal, Work"
-                    maxlength="100"
-                    required
-                    autofocus
-                >
-            </div>
-
-            <div class="buttons">
-
-                <a href="{% url 'dashboard' %}" class="btn btn-secondary">
-                    ← Back
-                </a>
-
-                <button type="submit" class="btn btn-primary">
-                    {% if category %}
-                        Update Category
-                    {% else %}
-                        Add Category
-                    {% endif %}
-                </button>
-
-            </div>
-
-        </form>
+        <div class="shape shape-one"></div>
+        <div class="shape shape-two"></div>
+        <div class="shape shape-three"></div>
 
     </div>
 
-</div>
+
+    <main class="page">
+
+        <div class="container">
+
+
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    H
+                </div>
+
+                <h1>
+                    HANGARIN
+                </h1>
+
+                <p>
+                    Plan &nbsp;•&nbsp; Organize &nbsp;•&nbsp; Achieve
+                </p>
+
+            </div>
+
+
+            <!-- MOTIVATIONAL CARDS -->
+
+            <div class="decor-row">
+
+                <div class="quote-card left">
+                    Organize your tasks by grouping them into meaningful categories.
+                </div>
+
+                <div class="quote-card right">
+                    A clear category makes your dashboard easier to manage.
+                </div>
+
+            </div>
+
+
+            <!-- MAIN CARD -->
+
+            <div class="card">
+
+
+                <div class="card-header">
+
+                    <div class="add-icon">
+                        C
+                    </div>
+
+                    <div>
+
+                        <h2>
+
+                            {% if category %}
+                                Edit Category
+                            {% else %}
+                                Add New Category
+                            {% endif %}
+
+                        </h2>
+
+                        <p>
+
+                            {% if category %}
+                                Update the category name below.
+                            {% else %}
+                                Create a category to organize your tasks.
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MESSAGES -->
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="message">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <!-- CATEGORY FORM -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Category Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            maxlength="100"
+                            placeholder="Example: School"
+                            value="{% if category %}{{ category.name }}{% endif %}"
+                            required
+                            autofocus
+                        >
+
+
+                        <div class="category-hint">
+                            Use a simple and meaningful name that helps
+                            you quickly identify the type of task.
+                        </div>
+
+
+                        <div class="category-examples">
+
+                            <span class="example school">
+                                School
+                            </span>
+
+                            <span class="example work">
+                                Work
+                            </span>
+
+                            <span class="example personal">
+                                Personal
+                            </span>
+
+                            <span class="example project">
+                                Project
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="buttons">
+
+                        <a
+                            href="{% url 'dashboard' %}"
+                            class="button back"
+                        >
+                            Back to Dashboard
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="button submit"
+                        >
+
+                            {% if category %}
+                                Update Category
+                            {% else %}
+                                Save Category
+                            {% endif %}
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+                Hangarin Task Manager &nbsp;•&nbsp; Organize your goals, one category at a time.
+            </div>
+
+
+        </div>
+
+    </main>
 
 </body>
 </html>
