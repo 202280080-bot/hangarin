@@ -4,856 +4,610 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard - Hangarin</title>
+    <title>Hangarin Dashboard</title>
 
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --cyan: #06b6d4;
-            --green: #10b981;
-            --orange: #f59e0b;
-            --red: #ef4444;
-
-            --dark: #1e1b4b;
-            --text: #374151;
-            --muted: #6b7280;
-
-            --background: #f5f7ff;
-            --white: #ffffff;
-            --border: #e5e7eb;
-        }
-
-
-        /* ========================================
-           GENERAL
-        ======================================== */
-
-        html {
-            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #172033;
 
             background:
-                radial-gradient(
-                    circle at 0% 0%,
-                    rgba(99,102,241,0.08),
-                    transparent 25%
-                ),
-                radial-gradient(
-                    circle at 100% 100%,
-                    rgba(139,92,246,0.08),
-                    transparent 25%
-                ),
-                var(--background);
-
-            color: var(--text);
+                radial-gradient(circle at 10% 10%, rgba(255, 107, 107, .18), transparent 25%),
+                radial-gradient(circle at 90% 10%, rgba(72, 149, 239, .20), transparent 25%),
+                radial-gradient(circle at 20% 90%, rgba(67, 170, 139, .18), transparent 25%),
+                radial-gradient(circle at 90% 90%, rgba(247, 183, 49, .18), transparent 25%),
+                #f6f8fc;
         }
 
+        a {
+            text-decoration: none;
+        }
 
-        /* ========================================
+        /* =========================
            NAVBAR
-        ======================================== */
+        ========================= */
 
         .navbar {
-
-            position: sticky;
-
-            top: 0;
-
-            z-index: 100;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4338ca,
-                    #6366f1,
-                    #8b5cf6
-                );
-
+            width: 100%;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
             color: white;
-
-            padding: 15px 35px;
-
+            padding: 18px 5%;
             display: flex;
-
-            justify-content: space-between;
-
             align-items: center;
-
-            box-shadow:
-                0 5px 20px rgba(67,56,202,0.25);
+            justify-content: space-between;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, .25);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .brand {
-
             display: flex;
-
             align-items: center;
-
             gap: 12px;
         }
 
         .brand-icon {
-
             width: 45px;
             height: 45px;
-
+            border-radius: 14px;
+            background: rgba(255,255,255,.20);
             display: flex;
-
+            align-items: center;
             justify-content: center;
-            align-items: center;
-
-            border-radius: 13px;
-
-            background:
-                rgba(255,255,255,0.18);
-
-            border:
-                1px solid rgba(255,255,255,0.25);
-
-            font-size: 23px;
-
-            font-weight: bold;
+            font-size: 24px;
+            box-shadow: inset 0 0 15px rgba(255,255,255,.15);
         }
 
-        .brand-text h1 {
-
-            margin: 0;
-
+        .brand h1 {
             font-size: 23px;
-
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
         }
 
-        .brand-text p {
-
-            margin: 3px 0 0;
-
+        .brand small {
+            display: block;
+            opacity: .8;
+            margin-top: 2px;
             font-size: 11px;
-
-            opacity: 0.8;
         }
 
-        .navbar-right {
-
+        .nav-right {
             display: flex;
-
             align-items: center;
-
-            gap: 12px;
+            gap: 15px;
         }
 
         .welcome {
-
             font-size: 14px;
-
-            font-weight: bold;
-
-            background:
-                rgba(255,255,255,0.12);
-
-            padding: 9px 14px;
-
-            border-radius: 20px;
+            font-weight: 600;
         }
 
-        .nav-button {
-
-            display: inline-block;
-
-            padding: 9px 17px;
-
-            border-radius: 9px;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            transition: 0.2s;
-        }
-
-        .nav-button.login {
-
+        .logout-btn {
             background: white;
-
-            color: var(--primary);
+            color: #4f46e5;
+            padding: 10px 17px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: .2s;
         }
 
-        .nav-button.login:hover {
-
+        .logout-btn:hover {
             transform: translateY(-2px);
-
-            box-shadow:
-                0 5px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,.15);
         }
 
-        .nav-button.logout {
-
-            background: rgba(239,68,68,0.95);
-
-            color: white;
-        }
-
-        .nav-button.logout:hover {
-
-            background: #dc2626;
-
-            transform: translateY(-2px);
-        }
-
-
-        /* ========================================
-           MAIN CONTAINER
-        ======================================== */
+        /* =========================
+           MAIN
+        ========================= */
 
         .container {
-
-            width: 94%;
-
-            max-width: 1450px;
-
+            width: 90%;
+            max-width: 1400px;
             margin: 35px auto 60px;
         }
 
-
-        /* ========================================
-           PAGE HEADER
-        ======================================== */
-
-        .page-header {
+        .hero {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 35px rgba(31, 41, 55, .08);
+            border: 1px solid #eef0f6;
 
             display: flex;
-
-            justify-content: space-between;
-
             align-items: center;
-
-            margin-bottom: 30px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(99,102,241,0.10),
-                    rgba(139,92,246,0.08)
-                );
-
-            padding: 25px 28px;
-
-            border-radius: 18px;
-
-            border:
-                1px solid rgba(99,102,241,0.10);
+            justify-content: space-between;
+            gap: 25px;
         }
 
-        .page-header h2 {
-
-            margin: 0;
-
-            color: var(--dark);
-
-            font-size: 30px;
-
-            letter-spacing: -0.7px;
+        .hero-text h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .page-header h2 span {
-
-            color: var(--primary);
+        .hero-text p {
+            color: #6b7280;
+            line-height: 1.6;
         }
 
-        .page-header p {
-
-            margin: 7px 0 0;
-
-            color: var(--muted);
-
-            font-size: 14px;
+        .hero-icon {
+            font-size: 65px;
         }
 
+        /* =========================
+           MESSAGES
+        ========================= */
 
-        /* ========================================
+        .messages {
+            margin-bottom: 25px;
+        }
+
+        .message {
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .message.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* =========================
            STAT CARDS
-        ======================================== */
+        ========================= */
 
         .stats {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(5, 1fr);
-
+            grid-template-columns: repeat(5, 1fr);
             gap: 18px;
-
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .stat-card {
-
-            position: relative;
-
-            overflow: hidden;
-
             background: white;
-
-            padding: 23px;
-
-            border-radius: 17px;
-
-            border:
-                1px solid var(--border);
-
-            box-shadow:
-                0 5px 18px rgba(30,27,75,0.07);
-
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+            border-radius: 20px;
+            padding: 22px;
+            box-shadow: 0 8px 25px rgba(31, 41, 55, .07);
+            border: 1px solid #eef0f6;
+            transition: .25s;
+            position: relative;
+            overflow: hidden;
         }
 
         .stat-card:hover {
-
             transform: translateY(-5px);
-
-            box-shadow:
-                0 12px 28px rgba(30,27,75,0.12);
+            box-shadow: 0 14px 30px rgba(31, 41, 55, .12);
         }
 
         .stat-card::after {
-
             content: "";
-
             position: absolute;
-
-            width: 90px;
-            height: 90px;
-
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-
-            right: -35px;
-            top: -35px;
-
-            opacity: 0.12;
+            right: -25px;
+            top: -25px;
+            opacity: .12;
         }
 
-        .stat-card.task::after {
-            background: var(--primary);
+        .stat-card.blue::after {
+            background: #3b82f6;
         }
 
-        .stat-card.subtask::after {
-            background: var(--cyan);
+        .stat-card.green::after {
+            background: #10b981;
         }
 
-        .stat-card.note::after {
-            background: var(--orange);
+        .stat-card.pink::after {
+            background: #ec4899;
         }
 
-        .stat-card.category::after {
-            background: var(--green);
+        .stat-card.orange::after {
+            background: #f59e0b;
         }
 
-        .stat-card.priority::after {
-            background: var(--red);
-        }
-
-        .stat-top {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 15px;
+        .stat-card.purple::after {
+            background: #8b5cf6;
         }
 
         .stat-icon {
-
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            border-radius: 12px;
-
-            font-size: 20px;
+            font-size: 28px;
+            margin-bottom: 12px;
         }
 
-        .task .stat-icon {
-
-            background: #eef2ff;
-            color: var(--primary);
-        }
-
-        .subtask .stat-icon {
-
-            background: #ecfeff;
-            color: var(--cyan);
-        }
-
-        .note .stat-icon {
-
-            background: #fffbeb;
-            color: var(--orange);
-        }
-
-        .category .stat-icon {
-
-            background: #ecfdf5;
-            color: var(--green);
-        }
-
-        .priority .stat-icon {
-
-            background: #fef2f2;
-            color: var(--red);
-        }
-
-        .stat-card h3 {
-
-            margin: 0;
-
+        .stat-number {
             font-size: 30px;
-
-            color: var(--dark);
+            font-weight: 800;
+            margin-bottom: 4px;
         }
 
-        .stat-card p {
-
-            margin: 5px 0 0;
-
-            color: var(--muted);
-
+        .stat-label {
+            color: #6b7280;
             font-size: 13px;
-
-            font-weight: bold;
+            font-weight: 600;
         }
 
-
-        /* ========================================
-           SECTIONS
-        ======================================== */
+        /* =========================
+           SECTION
+        ========================= */
 
         .section {
-
             background: white;
-
-            margin-bottom: 25px;
-
+            border-radius: 22px;
             padding: 25px;
-
-            border-radius: 17px;
-
-            border:
-                1px solid var(--border);
-
-            box-shadow:
-                0 5px 18px rgba(30,27,75,0.06);
+            margin-bottom: 30px;
+            box-shadow: 0 8px 28px rgba(31, 41, 55, .07);
+            border: 1px solid #eef0f6;
         }
 
         .section-header {
-
             display: flex;
-
-            justify-content: space-between;
-
             align-items: center;
-
+            justify-content: space-between;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
         .section-title {
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
         }
 
-        .section-title-icon {
+        .section-title h3 {
+            font-size: 21px;
+        }
 
-            width: 38px;
-            height: 38px;
+        .section-title span {
+            font-size: 25px;
+        }
 
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
+        .add-btn {
+            border: none;
+            padding: 10px 16px;
             border-radius: 10px;
-
-            background: #eef2ff;
-
-            color: var(--primary);
-
-            font-size: 18px;
-        }
-
-        .section-header h2 {
-
-            margin: 0;
-
-            color: var(--dark);
-
-            font-size: 20px;
-        }
-
-        .add-button {
-
-            display: inline-block;
-
-            padding: 10px 15px;
-
-            border-radius: 9px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
-
             color: white;
-
-            text-decoration: none;
-
-            font-size: 13px;
-
             font-weight: bold;
-
-            box-shadow:
-                0 5px 13px rgba(99,102,241,0.22);
-
-            transition: 0.2s;
+            cursor: pointer;
+            transition: .2s;
+            display: inline-block;
         }
 
-        .add-button:hover {
-
+        .add-btn:hover {
             transform: translateY(-2px);
-
-            box-shadow:
-                0 8px 18px rgba(99,102,241,0.30);
         }
 
+        .add-blue {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+        }
 
-        /* ========================================
+        .add-green {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+
+        .add-purple {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+
+        .add-orange {
+            background: linear-gradient(135deg, #ea580c, #f59e0b);
+        }
+
+        .add-pink {
+            background: linear-gradient(135deg, #db2777, #ec4899);
+        }
+
+        /* =========================
            TABLE
-        ======================================== */
+        ========================= */
 
-        .table-container {
-
+        .table-wrapper {
+            width: 100%;
             overflow-x: auto;
-
-            border:
-                1px solid var(--border);
-
-            border-radius: 12px;
         }
 
         table {
-
             width: 100%;
-
             border-collapse: collapse;
-
             min-width: 700px;
         }
 
-        th,
-        td {
-
-            padding: 14px;
-
-            border-bottom:
-                1px solid #eef0f4;
-
+        th {
+            background: #f8fafc;
+            color: #64748b;
             text-align: left;
+            padding: 13px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
 
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #eef0f6;
+            font-size: 14px;
             vertical-align: middle;
         }
 
-        th {
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #f8faff,
-                    #f4f3ff
-                );
-
-            color: #4b5563;
-
-            font-size: 12px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.4px;
-        }
-
-        td {
-
-            font-size: 13px;
-
-            color: #4b5563;
-        }
-
-        tbody tr {
-
-            transition: background 0.15s;
-        }
-
-        tbody tr:hover {
-
-            background: #f8faff;
-        }
-
-        tbody tr:last-child td {
-
+        tr:last-child td {
             border-bottom: none;
         }
 
-
-        /* ========================================
-           STATUS
-        ======================================== */
-
-        .status {
-
-            display: inline-block;
-
-            padding: 5px 10px;
-
-            border-radius: 20px;
-
-            font-size: 11px;
-
-            font-weight: bold;
+        tr:hover td {
+            background: #fafbff;
         }
 
-        .status.pending {
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
 
+        /* =========================
+           BADGES
+        ========================= */
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .badge-pending {
             background: #fef3c7;
-
             color: #92400e;
         }
 
-        .status.progress {
-
+        .badge-progress {
             background: #dbeafe;
-
             color: #1d4ed8;
         }
 
-        .status.completed {
-
+        .badge-completed {
             background: #dcfce7;
-
             color: #166534;
         }
 
+        .badge-category {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
 
-        /* ========================================
+        .badge-priority {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+
+        /* =========================
            ACTION BUTTONS
-        ======================================== */
+        ========================= */
 
-        .action-button {
+        .actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
 
+        .action-btn {
             display: inline-block;
-
-            padding: 7px 11px;
-
-            border-radius: 7px;
-
-            text-decoration: none;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            margin-right: 4px;
-
-            transition: 0.2s;
-        }
-
-        .edit-button {
-
-            background: #fff7ed;
-
-            color: #c2410c;
-
-            border:
-                1px solid #fed7aa;
-        }
-
-        .edit-button:hover {
-
-            background: #f97316;
-
-            color: white;
-        }
-
-        .delete-button {
-
-            background: #fef2f2;
-
-            color: #dc2626;
-
-            border:
-                1px solid #fecaca;
-        }
-
-        .delete-button:hover {
-
-            background: #dc2626;
-
-            color: white;
-        }
-
-
-        /* ========================================
-           EMPTY
-        ======================================== */
-
-        .empty {
-
-            text-align: center;
-
-            padding: 35px 20px;
-
-            color: #9ca3af;
-
-            background: #fafafa;
-
-            border-radius: 12px;
-
-            border:
-                1px dashed #d1d5db;
-        }
-
-        .empty-icon {
-
-            font-size: 30px;
-
-            margin-bottom: 8px;
-        }
-
-
-        /* ========================================
-           FOOTER
-        ======================================== */
-
-        .footer {
-
-            text-align: center;
-
-            padding: 10px;
-
-            color: #9ca3af;
-
+            padding: 7px 10px;
+            border-radius: 8px;
             font-size: 12px;
+            font-weight: bold;
+            transition: .2s;
         }
 
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
 
-        /* ========================================
+        .edit {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .delete {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* =========================
+           MINI GRID
+        ========================= */
+
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .mini-section {
+            background: #fafbff;
+            border: 1px solid #eef0f6;
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .mini-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .mini-header h4 {
+            font-size: 17px;
+        }
+
+        .mini-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mini-item {
+            background: white;
+            border-radius: 12px;
+            padding: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border: 1px solid #edf0f5;
+        }
+
+        .mini-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .mini-actions {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .mini-action {
+            padding: 6px 8px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            padding: 15px;
+        }
+
+        /* =========================
            RESPONSIVE
-        ======================================== */
+        ========================= */
 
-        @media (max-width: 1150px) {
-
+        @media (max-width: 1100px) {
             .stats {
-
-                grid-template-columns:
-                    repeat(3, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
         @media (max-width: 800px) {
-
             .navbar {
-
-                padding: 14px 20px;
-
-                flex-direction: column;
-
-                gap: 14px;
-
-                text-align: center;
+                padding: 15px 4%;
             }
 
-            .navbar-right {
-
-                flex-wrap: wrap;
-
-                justify-content: center;
+            .welcome {
+                display: none;
             }
 
-            .page-header {
-
+            .hero {
                 flex-direction: column;
-
                 align-items: flex-start;
+            }
 
-                gap: 15px;
+            .hero-icon {
+                display: none;
             }
 
             .stats {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .container {
-
-                width: 92%;
+            .mini-grid {
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 500px) {
+            .container {
+                width: 94%;
+                margin-top: 20px;
+            }
+
+            .brand h1 {
+                font-size: 18px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 19px;
+            }
+
+            .logout-btn {
+                padding: 8px 11px;
+                font-size: 12px;
+            }
+
+            .hero {
+                padding: 22px;
+            }
+
+            .hero-text h2 {
+                font-size: 25px;
+            }
 
             .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
 
-                grid-template-columns: 1fr;
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-number {
+                font-size: 24px;
             }
 
             .section {
-
                 padding: 17px;
             }
 
             .section-header {
-
                 align-items: flex-start;
-
-                gap: 10px;
-
-                flex-direction: column;
             }
 
-            .page-header h2 {
-
-                font-size: 25px;
-            }
-
-            .welcome {
-
+            .add-btn {
+                padding: 8px 11px;
                 font-size: 12px;
             }
         }
@@ -862,258 +616,201 @@
 
 <body>
 
-
-<!-- ==========================================
+<!-- =========================
      NAVBAR
-========================================== -->
+========================= -->
 
 <nav class="navbar">
 
     <div class="brand">
+        <div class="brand-icon">✓</div>
 
-        <div class="brand-icon">
-            H
+        <div>
+            <h1>HANGARIN</h1>
+            <small>Task & To-Do Manager</small>
         </div>
-
-        <div class="brand-text">
-
-            <h1>Hangarin</h1>
-
-            <p>Task Management System</p>
-
-        </div>
-
     </div>
 
+    <div class="nav-right">
 
-    <div class="navbar-right">
+        <span class="welcome">
+            👋 Welcome, {{ user.username }}!
+        </span>
 
-        {% if user.is_authenticated %}
-
-            <span class="welcome">
-                👋 Welcome, {{ user.username }}!
-            </span>
-
-            <a
-                href="{% url 'logout' %}"
-                class="nav-button logout"
-            >
-                Logout
-            </a>
-
-        {% else %}
-
-            <a
-                href="{% url 'login' %}"
-                class="nav-button login"
-            >
-                Login
-            </a>
-
-        {% endif %}
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
 
     </div>
 
 </nav>
 
 
-<!-- ==========================================
+<!-- =========================
      MAIN
-========================================== -->
+========================= -->
 
-<div class="container">
+<main class="container">
 
+    <!-- HERO -->
 
-    <!-- PAGE HEADER -->
+    <div class="hero">
 
-    <div class="page-header">
+        <div class="hero-text">
 
-        <div>
-
-            <h2>
-                Welcome to your <span>Dashboard</span> 👋
-            </h2>
+            <h2>Good day, {{ user.username }}! 👋</h2>
 
             <p>
-                Manage your tasks, subtasks, notes,
-                categories, and priorities in one place.
+                Organize your tasks, track your progress,
+                and keep everything you need in one place.
             </p>
 
+        </div>
+
+        <div class="hero-icon">
+            🚀
         </div>
 
     </div>
 
 
-    <!-- ======================================
+    <!-- =========================
+         MESSAGES
+    ========================= -->
+
+    {% if messages %}
+
+    <div class="messages">
+
+        {% for message in messages %}
+
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =========================
          STATISTICS
-    ======================================= -->
+    ========================= -->
 
     <div class="stats">
 
+        <div class="stat-card blue">
 
-        <!-- TASKS -->
+            <div class="stat-icon">📝</div>
 
-        <div class="stat-card task">
-
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    ✓
-                </div>
-
-            </div>
-
-            <h3>
+            <div class="stat-number">
                 {{ task_count }}
-            </h3>
+            </div>
 
-            <p>
+            <div class="stat-label">
                 Total Tasks
-            </p>
+            </div>
 
         </div>
 
 
-        <!-- SUBTASKS -->
+        <div class="stat-card green">
 
-        <div class="stat-card subtask">
+            <div class="stat-icon">☑️</div>
 
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    ☷
-                </div>
-
-            </div>
-
-            <h3>
+            <div class="stat-number">
                 {{ subtask_count }}
-            </h3>
+            </div>
 
-            <p>
-                Total Subtasks
-            </p>
+            <div class="stat-label">
+                Subtasks
+            </div>
 
         </div>
 
 
-        <!-- NOTES -->
+        <div class="stat-card pink">
 
-        <div class="stat-card note">
+            <div class="stat-icon">🗒️</div>
 
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    📝
-                </div>
-
-            </div>
-
-            <h3>
+            <div class="stat-number">
                 {{ note_count }}
-            </h3>
+            </div>
 
-            <p>
-                Total Notes
-            </p>
+            <div class="stat-label">
+                Notes
+            </div>
 
         </div>
 
 
-        <!-- CATEGORIES -->
+        <div class="stat-card orange">
 
-        <div class="stat-card category">
+            <div class="stat-icon">🏷️</div>
 
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    📁
-                </div>
-
-            </div>
-
-            <h3>
+            <div class="stat-number">
                 {{ category_count }}
-            </h3>
+            </div>
 
-            <p>
+            <div class="stat-label">
                 Categories
-            </p>
+            </div>
 
         </div>
 
 
-        <!-- PRIORITIES -->
+        <div class="stat-card purple">
 
-        <div class="stat-card priority">
+            <div class="stat-icon">⚡</div>
 
-            <div class="stat-top">
-
-                <div class="stat-icon">
-                    ★
-                </div>
-
+            <div class="stat-number">
+                {{ priority_count }}
             </div>
 
-            <h3>
-                {{ priority_count }}
-            </h3>
-
-            <p>
+            <div class="stat-label">
                 Priorities
-            </p>
+            </div>
 
         </div>
 
     </div>
 
 
-    <!-- ======================================
+    <!-- =========================
          TASKS
-    ======================================= -->
+    ========================= -->
 
-    <div class="section">
+    <section class="section">
 
         <div class="section-header">
 
             <div class="section-title">
-
-                <div class="section-title-icon">
-                    ✓
-                </div>
-
-                <h2>
-                    Tasks
-                </h2>
-
+                <span>📝</span>
+                <h3>Tasks</h3>
             </div>
 
-            <a
-                href="{% url 'add_task' %}"
-                class="add-button"
-            >
+            <a href="{% url 'add_task' %}" class="add-btn add-blue">
                 + Add Task
             </a>
 
         </div>
 
 
-        {% if tasks %}
-
-        <div class="table-container">
+        <div class="table-wrapper">
 
             <table>
 
                 <thead>
 
                     <tr>
-                        <th>ID</th>
                         <th>Title</th>
                         <th>Description</th>
-                        <th>Deadline</th>
-                        <th>Status</th>
                         <th>Category</th>
                         <th>Priority</th>
+                        <th>Status</th>
+                        <th>Deadline</th>
                         <th>Actions</th>
                     </tr>
 
@@ -1126,41 +823,47 @@
                     <tr>
 
                         <td>
-                            #{{ task.id }}
+                            <strong>{{ task.title }}</strong>
                         </td>
 
                         <td>
-                            <strong>
-                                {{ task.title }}
-                            </strong>
+                            {% if task.description %}
+                                {{ task.description|truncatechars:50 }}
+                            {% else %}
+                                <span style="color:#94a3b8;">No description</span>
+                            {% endif %}
                         </td>
 
                         <td>
-                            {{ task.description|default:"-" }}
+                            <span class="badge badge-category">
+                                {{ task.category.name }}
+                            </span>
                         </td>
 
                         <td>
-                            {{ task.deadline|default:"-" }}
+                            <span class="badge badge-priority">
+                                {{ task.priority.name }}
+                            </span>
                         </td>
 
                         <td>
 
                             {% if task.status == "Completed" %}
 
-                                <span class="status completed">
-                                    Completed
+                                <span class="badge badge-completed">
+                                    ✓ Completed
                                 </span>
 
                             {% elif task.status == "In Progress" %}
 
-                                <span class="status progress">
-                                    In Progress
+                                <span class="badge badge-progress">
+                                    ↻ In Progress
                                 </span>
 
                             {% else %}
 
-                                <span class="status pending">
-                                    Pending
+                                <span class="badge badge-pending">
+                                    ◷ Pending
                                 </span>
 
                             {% endif %}
@@ -1168,30 +871,46 @@
                         </td>
 
                         <td>
-                            {{ task.category }}
+
+                            {% if task.deadline %}
+                                {{ task.deadline|date:"M d, Y h:i A" }}
+                            {% else %}
+                                <span style="color:#94a3b8;">No deadline</span>
+                            {% endif %}
+
                         </td>
 
                         <td>
-                            {{ task.priority }}
+
+                            <div class="actions">
+
+                                <a
+                                    href="{% url 'edit_task' task.id %}"
+                                    class="action-btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'delete_task' task.id %}"
+                                    class="action-btn delete"
+                                    onclick="return confirm('Are you sure you want to delete this task?');"
+                                >
+                                    🗑️ Delete
+                                </a>
+
+                            </div>
+
                         </td>
 
-                        <td>
+                    </tr>
 
-                            <a
-                                href="{% url 'edit_task' task.id %}"
-                                class="action-button edit-button"
-                            >
-                                Edit
-                            </a>
+                    {% empty %}
 
-                            <a
-                                href="{% url 'delete_task' task.id %}"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure you want to delete this task?');"
-                            >
-                                Delete
-                            </a>
+                    <tr>
 
+                        <td colspan="7" class="empty">
+                            📝 No tasks yet. Click <strong>+ Add Task</strong> to create your first task.
                         </td>
 
                     </tr>
@@ -1204,66 +923,40 @@
 
         </div>
 
-        {% else %}
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    📋
-                </div>
-
-                No tasks found. Add your first task!
-
-            </div>
-
-        {% endif %}
-
-    </div>
+    </section>
 
 
-    <!-- ======================================
+    <!-- =========================
          SUBTASKS
-    ======================================= -->
+    ========================= -->
 
-    <div class="section">
+    <section class="section">
 
         <div class="section-header">
 
             <div class="section-title">
-
-                <div class="section-title-icon">
-                    ☷
-                </div>
-
-                <h2>
-                    Subtasks
-                </h2>
-
+                <span>☑️</span>
+                <h3>Subtasks</h3>
             </div>
 
-            <a
-                href="{% url 'add_subtask' %}"
-                class="add-button"
-            >
+            <a href="{% url 'add_subtask' %}" class="add-btn add-green">
                 + Add Subtask
             </a>
 
         </div>
 
 
-        {% if subtasks %}
-
-        <div class="table-container">
+        <div class="table-wrapper">
 
             <table>
 
                 <thead>
 
                     <tr>
-                        <th>ID</th>
+                        <th>Subtask</th>
                         <th>Parent Task</th>
-                        <th>Title</th>
                         <th>Status</th>
+                        <th>Created</th>
                         <th>Actions</th>
                     </tr>
 
@@ -1276,37 +969,31 @@
                     <tr>
 
                         <td>
-                            #{{ subtask.id }}
+                            <strong>{{ subtask.title }}</strong>
                         </td>
 
                         <td>
-                            {{ subtask.parent_task }}
-                        </td>
-
-                        <td>
-                            <strong>
-                                {{ subtask.title }}
-                            </strong>
+                            {{ subtask.parent_task.title }}
                         </td>
 
                         <td>
 
                             {% if subtask.status == "Completed" %}
 
-                                <span class="status completed">
-                                    Completed
+                                <span class="badge badge-completed">
+                                    ✓ Completed
                                 </span>
 
                             {% elif subtask.status == "In Progress" %}
 
-                                <span class="status progress">
-                                    In Progress
+                                <span class="badge badge-progress">
+                                    ↻ In Progress
                                 </span>
 
                             {% else %}
 
-                                <span class="status pending">
-                                    Pending
+                                <span class="badge badge-pending">
+                                    ◷ Pending
                                 </span>
 
                             {% endif %}
@@ -1314,22 +1001,40 @@
                         </td>
 
                         <td>
+                            {{ subtask.created_at|date:"M d, Y" }}
+                        </td>
 
-                            <a
-                                href="{% url 'edit_subtask' subtask.id %}"
-                                class="action-button edit-button"
-                            >
-                                Edit
-                            </a>
+                        <td>
 
-                            <a
-                                href="{% url 'delete_subtask' subtask.id %}"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure you want to delete this subtask?');"
-                            >
-                                Delete
-                            </a>
+                            <div class="actions">
 
+                                <a
+                                    href="{% url 'edit_subtask' subtask.id %}"
+                                    class="action-btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'delete_subtask' subtask.id %}"
+                                    class="action-btn delete"
+                                    onclick="return confirm('Are you sure you want to delete this subtask?');"
+                                >
+                                    🗑️ Delete
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="empty">
+                            ☑️ No subtasks yet.
                         </td>
 
                     </tr>
@@ -1342,65 +1047,40 @@
 
         </div>
 
-        {% else %}
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ☷
-                </div>
-
-                No subtasks found.
-
-            </div>
-
-        {% endif %}
-
-    </div>
+    </section>
 
 
-    <!-- ======================================
+    <!-- =========================
          NOTES
-    ======================================= -->
+    ========================= -->
 
-    <div class="section">
+    <section class="section">
 
         <div class="section-header">
 
             <div class="section-title">
-
-                <div class="section-title-icon">
-                    📝
-                </div>
-
-                <h2>
-                    Notes
-                </h2>
-
+                <span>🗒️</span>
+                <h3>Notes</h3>
             </div>
 
-            <a
-                href="{% url 'add_note' %}"
-                class="add-button"
-            >
+            <a href="{% url 'add_note' %}" class="add-btn add-purple">
                 + Add Note
             </a>
 
         </div>
 
 
-        {% if notes %}
-
-        <div class="table-container">
+        <div class="table-wrapper">
 
             <table>
 
                 <thead>
 
                     <tr>
-                        <th>ID</th>
-                        <th>Task</th>
-                        <th>Content</th>
+                        <th>Related Task</th>
+                        <th>Note</th>
+                        <th>Created</th>
+                        <th>Updated</th>
                         <th>Actions</th>
                     </tr>
 
@@ -1413,34 +1093,52 @@
                     <tr>
 
                         <td>
-                            #{{ note.id }}
+                            <strong>{{ note.task.title }}</strong>
                         </td>
 
                         <td>
-                            {{ note.task }}
+                            {{ note.content|truncatechars:80 }}
                         </td>
 
                         <td>
-                            {{ note.content }}
+                            {{ note.created_at|date:"M d, Y" }}
+                        </td>
+
+                        <td>
+                            {{ note.updated_at|date:"M d, Y" }}
                         </td>
 
                         <td>
 
-                            <a
-                                href="{% url 'edit_note' note.id %}"
-                                class="action-button edit-button"
-                            >
-                                Edit
-                            </a>
+                            <div class="actions">
 
-                            <a
-                                href="{% url 'delete_note' note.id %}"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure you want to delete this note?');"
-                            >
-                                Delete
-                            </a>
+                                <a
+                                    href="{% url 'edit_note' note.id %}"
+                                    class="action-btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
 
+                                <a
+                                    href="{% url 'delete_note' note.id %}"
+                                    class="action-btn delete"
+                                    onclick="return confirm('Are you sure you want to delete this note?');"
+                                >
+                                    🗑️ Delete
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="5" class="empty">
+                            🗒️ No notes yet.
                         </td>
 
                     </tr>
@@ -1453,249 +1151,151 @@
 
         </div>
 
-        {% else %}
+    </section>
 
-            <div class="empty">
 
-                <div class="empty-icon">
-                    📝
-                </div>
+    <!-- =========================
+         CATEGORY + PRIORITY
+    ========================= -->
 
-                No notes found.
+    <div class="mini-grid">
+
+
+        <!-- CATEGORIES -->
+
+        <section class="mini-section">
+
+            <div class="mini-header">
+
+                <h4>🏷️ Categories</h4>
+
+                <a
+                    href="{% url 'add_category' %}"
+                    class="add-btn add-orange"
+                >
+                    + Add
+                </a>
 
             </div>
 
-        {% endif %}
+
+            <div class="mini-list">
+
+                {% for category in categories %}
+
+                <div class="mini-item">
+
+                    <span class="mini-item-name">
+                        {{ category.name }}
+                    </span>
+
+                    <div class="mini-actions">
+
+                        <a
+                            href="{% url 'edit_category' category.id %}"
+                            class="mini-action edit"
+                        >
+                            ✏️
+                        </a>
+
+                        <a
+                            href="{% url 'delete_category' category.id %}"
+                            class="mini-action delete"
+                            onclick="return confirm('Delete this category?');"
+                        >
+                            🗑️
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="empty">
+                    No categories yet.
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- PRIORITIES -->
+
+        <section class="mini-section">
+
+            <div class="mini-header">
+
+                <h4>⚡ Priorities</h4>
+
+                <a
+                    href="{% url 'add_priority' %}"
+                    class="add-btn add-pink"
+                >
+                    + Add
+                </a>
+
+            </div>
+
+
+            <div class="mini-list">
+
+                {% for priority in priorities %}
+
+                <div class="mini-item">
+
+                    <span class="mini-item-name">
+                        {{ priority.name }}
+                    </span>
+
+                    <div class="mini-actions">
+
+                        <a
+                            href="{% url 'edit_priority' priority.id %}"
+                            class="mini-action edit"
+                        >
+                            ✏️
+                        </a>
+
+                        <a
+                            href="{% url 'delete_priority' priority.id %}"
+                            class="mini-action delete"
+                            onclick="return confirm('Delete this priority?');"
+                        >
+                            🗑️
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="empty">
+                    No priorities yet.
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
 
     </div>
 
 
-    <!-- ======================================
-         CATEGORIES
-    ======================================= -->
-
-    <div class="section">
-
-        <div class="section-header">
-
-            <div class="section-title">
-
-                <div class="section-title-icon">
-                    📁
-                </div>
-
-                <h2>
-                    Categories
-                </h2>
-
-            </div>
-
-            <a
-                href="{% url 'add_category' %}"
-                class="add-button"
-            >
-                + Add Category
-            </a>
-
-        </div>
-
-
-        {% if categories %}
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for category in categories %}
-
-                    <tr>
-
-                        <td>
-                            #{{ category.id }}
-                        </td>
-
-                        <td>
-                            <strong>
-                                {{ category.name }}
-                            </strong>
-                        </td>
-
-                        <td>
-
-                            <a
-                                href="{% url 'edit_category' category.id %}"
-                                class="action-button edit-button"
-                            >
-                                Edit
-                            </a>
-
-                            <a
-                                href="{% url 'delete_category' category.id %}"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure you want to delete this category?');"
-                            >
-                                Delete
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        {% else %}
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    📁
-                </div>
-
-                No categories found.
-
-            </div>
-
-        {% endif %}
-
-    </div>
-
-
-    <!-- ======================================
-         PRIORITIES
-    ======================================= -->
-
-    <div class="section">
-
-        <div class="section-header">
-
-            <div class="section-title">
-
-                <div class="section-title-icon">
-                    ★
-                </div>
-
-                <h2>
-                    Priorities
-                </h2>
-
-            </div>
-
-            <a
-                href="{% url 'add_priority' %}"
-                class="add-button"
-            >
-                + Add Priority
-            </a>
-
-        </div>
-
-
-        {% if priorities %}
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for priority in priorities %}
-
-                    <tr>
-
-                        <td>
-                            #{{ priority.id }}
-                        </td>
-
-                        <td>
-                            <strong>
-                                {{ priority.name }}
-                            </strong>
-                        </td>
-
-                        <td>
-
-                            <a
-                                href="{% url 'edit_priority' priority.id %}"
-                                class="action-button edit-button"
-                            >
-                                Edit
-                            </a>
-
-                            <a
-                                href="{% url 'delete_priority' priority.id %}"
-                                class="action-button delete-button"
-                                onclick="return confirm('Are you sure you want to delete this priority?');"
-                            >
-                                Delete
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        {% else %}
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ★
-                </div>
-
-                No priorities found.
-
-            </div>
-
-        {% endif %}
-
-    </div>
-
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-
-        © 2026 Hangarin Task Management System
-        • Manage your goals. Complete your tasks. 🎯
-
-    </div>
-
-</div>
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+        © 2026 Hangarin Task & To-Do Manager • Stay organized, stay productive. ✨
+    </footer>
+
+</main>
 
 </body>
 </html>
