@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% if category %}Edit Category{% else %}Add Category{% endif %} | Hangarin
+    </title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #222;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            flex: 1;
+            text-decoration: none;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f3f7;
+            color: #444;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 25px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="header">
+            <div class="logo">H</div>
+
+            <h1>
+                {% if category %}
+                    Edit Category
+                {% else %}
+                    Add Category
+                {% endif %}
+            </h1>
+
+            <p class="subtitle">
+                {% if category %}
+                    Update your task category
+                {% else %}
+                    Create a new task category
+                {% endif %}
+            </p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="name">Category Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value="{% if category %}{{ category.name }}{% endif %}"
+                    placeholder="Example: School, Personal, Work"
+                    maxlength="100"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <div class="buttons">
+
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                    ← Back
+                </a>
+
+                <button type="submit" class="btn btn-primary">
+                    {% if category %}
+                        Update Category
+                    {% else %}
+                        Add Category
+                    {% endif %}
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
