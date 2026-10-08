@@ -52,7 +52,7 @@ def register_view(request):
         confirm_password = request.POST.get("confirm_password", "")
 
         if not username or not password or not confirm_password:
-            messages.error(request, "Please complete all required fields.")
+            messages.error(request, "Please complete all fields.")
             return render(request, "register.html")
 
         if password != confirm_password:
@@ -98,6 +98,7 @@ def logout_view(request):
 
 @login_required(login_url="/login/")
 def dashboard(request):
+
     context = {
         "tasks": Task.objects.select_related(
             "category",
@@ -132,6 +133,7 @@ def dashboard(request):
 
 @login_required(login_url="/login/")
 def add_task(request):
+
     categories = Category.objects.all()
     priorities = Priority.objects.all()
 
@@ -141,59 +143,72 @@ def add_task(request):
         description = request.POST.get("description", "").strip()
         deadline = request.POST.get("deadline", "").strip()
         status = request.POST.get("status", "Pending").strip()
-        category_id = request.POST.get("category", "").strip()
-        priority_id = request.POST.get("priority", "").strip()
 
-        # Required title
+        category_id = request.POST.get("category")
+        priority_id = request.POST.get("priority")
+
+        # ----------------------------
+        # VALIDATION
+        # ----------------------------
+
         if not title:
             messages.error(request, "Task title is required.")
 
-            return render(request, "task_form.html", {
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
-        # Required category
         if not category_id:
             messages.error(request, "Please select a category.")
 
-            return render(request, "task_form.html", {
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
-        # Required priority
         if not priority_id:
             messages.error(request, "Please select a priority.")
 
-            return render(request, "task_form.html", {
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
-        # Make sure category exists
+        # ----------------------------
+        # CHECK CATEGORY
+        # ----------------------------
+
         category = get_object_or_404(
             Category,
             id=category_id
         )
 
-        # Make sure priority exists
+        # ----------------------------
+        # CHECK PRIORITY
+        # ----------------------------
+
         priority = get_object_or_404(
             Priority,
             id=priority_id
         )
 
-        # Validate status
-        valid_statuses = [
-            "Pending",
-            "In Progress",
-            "Completed"
-        ]
+        # ----------------------------
+        # CREATE TASK
+        # ----------------------------
 
-        if status not in valid_statuses:
-            status = "Pending"
-
-        # Create task
         Task.objects.create(
             title=title,
             description=description,
@@ -210,10 +225,14 @@ def add_task(request):
 
         return redirect("/dashboard/")
 
-    return render(request, "task_form.html", {
-        "categories": categories,
-        "priorities": priorities,
-    })
+    return render(
+        request,
+        "task_form.html",
+        {
+            "categories": categories,
+            "priorities": priorities,
+        }
+    )
 
 
 # ============================================================
@@ -222,7 +241,11 @@ def add_task(request):
 
 @login_required(login_url="/login/")
 def edit_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+
+    task = get_object_or_404(
+        Task,
+        id=task_id
+    )
 
     categories = Category.objects.all()
     priorities = Priority.objects.all()
@@ -233,35 +256,48 @@ def edit_task(request, task_id):
         description = request.POST.get("description", "").strip()
         deadline = request.POST.get("deadline", "").strip()
         status = request.POST.get("status", "Pending").strip()
-        category_id = request.POST.get("category", "").strip()
-        priority_id = request.POST.get("priority", "").strip()
+
+        category_id = request.POST.get("category")
+        priority_id = request.POST.get("priority")
 
         if not title:
             messages.error(request, "Task title is required.")
 
-            return render(request, "task_form.html", {
-                "task": task,
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "task": task,
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
         if not category_id:
             messages.error(request, "Please select a category.")
 
-            return render(request, "task_form.html", {
-                "task": task,
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "task": task,
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
         if not priority_id:
             messages.error(request, "Please select a priority.")
 
-            return render(request, "task_form.html", {
-                "task": task,
-                "categories": categories,
-                "priorities": priorities,
-            })
+            return render(
+                request,
+                "task_form.html",
+                {
+                    "task": task,
+                    "categories": categories,
+                    "priorities": priorities,
+                }
+            )
 
         category = get_object_or_404(
             Category,
@@ -272,15 +308,6 @@ def edit_task(request, task_id):
             Priority,
             id=priority_id
         )
-
-        valid_statuses = [
-            "Pending",
-            "In Progress",
-            "Completed"
-        ]
-
-        if status not in valid_statuses:
-            status = "Pending"
 
         task.title = title
         task.description = description
@@ -298,11 +325,15 @@ def edit_task(request, task_id):
 
         return redirect("/dashboard/")
 
-    return render(request, "task_form.html", {
-        "task": task,
-        "categories": categories,
-        "priorities": priorities,
-    })
+    return render(
+        request,
+        "task_form.html",
+        {
+            "task": task,
+            "categories": categories,
+            "priorities": priorities,
+        }
+    )
 
 
 # ============================================================
@@ -311,7 +342,11 @@ def edit_task(request, task_id):
 
 @login_required(login_url="/login/")
 def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+
+    task = get_object_or_404(
+        Task,
+        id=task_id
+    )
 
     task.delete()
 
@@ -329,58 +364,37 @@ def delete_task(request, task_id):
 
 @login_required(login_url="/login/")
 def add_subtask(request):
+
     tasks = Task.objects.all()
 
     if request.method == "POST":
 
-        parent_task_id = request.POST.get(
-            "parent_task",
-            ""
-        ).strip()
-
-        title = request.POST.get(
-            "title",
-            ""
-        ).strip()
-
-        status = request.POST.get(
-            "status",
-            "Pending"
-        ).strip()
+        parent_task_id = request.POST.get("parent_task")
+        title = request.POST.get("title", "").strip()
+        status = request.POST.get("status", "Pending").strip()
 
         if not parent_task_id:
-            messages.error(
-                request,
-                "Please select a parent task."
-            )
+            messages.error(request, "Please select a parent task.")
 
-            return render(request, "subtask_form.html", {
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "subtask_form.html",
+                {"tasks": tasks}
+            )
 
         if not title:
-            messages.error(
-                request,
-                "Subtask title is required."
-            )
+            messages.error(request, "Subtask title is required.")
 
-            return render(request, "subtask_form.html", {
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "subtask_form.html",
+                {"tasks": tasks}
+            )
 
         parent_task = get_object_or_404(
             Task,
             id=parent_task_id
         )
-
-        valid_statuses = [
-            "Pending",
-            "In Progress",
-            "Completed"
-        ]
-
-        if status not in valid_statuses:
-            status = "Pending"
 
         SubTask.objects.create(
             parent_task=parent_task,
@@ -395,9 +409,11 @@ def add_subtask(request):
 
         return redirect("/dashboard/")
 
-    return render(request, "subtask_form.html", {
-        "tasks": tasks
-    })
+    return render(
+        request,
+        "subtask_form.html",
+        {"tasks": tasks}
+    )
 
 
 # ============================================================
@@ -406,6 +422,7 @@ def add_subtask(request):
 
 @login_required(login_url="/login/")
 def edit_subtask(request, subtask_id):
+
     subtask = get_object_or_404(
         SubTask,
         id=subtask_id
@@ -415,56 +432,38 @@ def edit_subtask(request, subtask_id):
 
     if request.method == "POST":
 
-        parent_task_id = request.POST.get(
-            "parent_task",
-            ""
-        ).strip()
-
-        title = request.POST.get(
-            "title",
-            ""
-        ).strip()
-
-        status = request.POST.get(
-            "status",
-            "Pending"
-        ).strip()
+        parent_task_id = request.POST.get("parent_task")
+        title = request.POST.get("title", "").strip()
+        status = request.POST.get("status", "Pending").strip()
 
         if not parent_task_id:
-            messages.error(
-                request,
-                "Please select a parent task."
-            )
+            messages.error(request, "Please select a parent task.")
 
-            return render(request, "subtask_form.html", {
-                "subtask": subtask,
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "subtask_form.html",
+                {
+                    "subtask": subtask,
+                    "tasks": tasks,
+                }
+            )
 
         if not title:
-            messages.error(
-                request,
-                "Subtask title is required."
-            )
+            messages.error(request, "Subtask title is required.")
 
-            return render(request, "subtask_form.html", {
-                "subtask": subtask,
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "subtask_form.html",
+                {
+                    "subtask": subtask,
+                    "tasks": tasks,
+                }
+            )
 
         parent_task = get_object_or_404(
             Task,
             id=parent_task_id
         )
-
-        valid_statuses = [
-            "Pending",
-            "In Progress",
-            "Completed"
-        ]
-
-        if status not in valid_statuses:
-            status = "Pending"
 
         subtask.parent_task = parent_task
         subtask.title = title
@@ -479,10 +478,14 @@ def edit_subtask(request, subtask_id):
 
         return redirect("/dashboard/")
 
-    return render(request, "subtask_form.html", {
-        "subtask": subtask,
-        "tasks": tasks,
-    })
+    return render(
+        request,
+        "subtask_form.html",
+        {
+            "subtask": subtask,
+            "tasks": tasks,
+        }
+    )
 
 
 # ============================================================
@@ -491,6 +494,7 @@ def edit_subtask(request, subtask_id):
 
 @login_required(login_url="/login/")
 def delete_subtask(request, subtask_id):
+
     subtask = get_object_or_404(
         SubTask,
         id=subtask_id
@@ -512,39 +516,31 @@ def delete_subtask(request, subtask_id):
 
 @login_required(login_url="/login/")
 def add_note(request):
+
     tasks = Task.objects.all()
 
     if request.method == "POST":
 
-        task_id = request.POST.get(
-            "task",
-            ""
-        ).strip()
-
-        content = request.POST.get(
-            "content",
-            ""
-        ).strip()
+        task_id = request.POST.get("task")
+        content = request.POST.get("content", "").strip()
 
         if not task_id:
-            messages.error(
-                request,
-                "Please select a task."
-            )
+            messages.error(request, "Please select a task.")
 
-            return render(request, "note_form.html", {
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "note_form.html",
+                {"tasks": tasks}
+            )
 
         if not content:
-            messages.error(
-                request,
-                "Note content is required."
-            )
+            messages.error(request, "Note content is required.")
 
-            return render(request, "note_form.html", {
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "note_form.html",
+                {"tasks": tasks}
+            )
 
         task = get_object_or_404(
             Task,
@@ -563,9 +559,11 @@ def add_note(request):
 
         return redirect("/dashboard/")
 
-    return render(request, "note_form.html", {
-        "tasks": tasks
-    })
+    return render(
+        request,
+        "note_form.html",
+        {"tasks": tasks}
+    )
 
 
 # ============================================================
@@ -574,6 +572,7 @@ def add_note(request):
 
 @login_required(login_url="/login/")
 def edit_note(request, note_id):
+
     note = get_object_or_404(
         Note,
         id=note_id
@@ -583,37 +582,32 @@ def edit_note(request, note_id):
 
     if request.method == "POST":
 
-        task_id = request.POST.get(
-            "task",
-            ""
-        ).strip()
-
-        content = request.POST.get(
-            "content",
-            ""
-        ).strip()
+        task_id = request.POST.get("task")
+        content = request.POST.get("content", "").strip()
 
         if not task_id:
-            messages.error(
-                request,
-                "Please select a task."
-            )
+            messages.error(request, "Please select a task.")
 
-            return render(request, "note_form.html", {
-                "note": note,
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "note_form.html",
+                {
+                    "note": note,
+                    "tasks": tasks,
+                }
+            )
 
         if not content:
-            messages.error(
-                request,
-                "Note content is required."
-            )
+            messages.error(request, "Note content is required.")
 
-            return render(request, "note_form.html", {
-                "note": note,
-                "tasks": tasks
-            })
+            return render(
+                request,
+                "note_form.html",
+                {
+                    "note": note,
+                    "tasks": tasks,
+                }
+            )
 
         task = get_object_or_404(
             Task,
@@ -632,10 +626,14 @@ def edit_note(request, note_id):
 
         return redirect("/dashboard/")
 
-    return render(request, "note_form.html", {
-        "note": note,
-        "tasks": tasks,
-    })
+    return render(
+        request,
+        "note_form.html",
+        {
+            "note": note,
+            "tasks": tasks,
+        }
+    )
 
 
 # ============================================================
@@ -644,6 +642,7 @@ def edit_note(request, note_id):
 
 @login_required(login_url="/login/")
 def delete_note(request, note_id):
+
     note = get_object_or_404(
         Note,
         id=note_id
@@ -665,12 +664,10 @@ def delete_note(request, note_id):
 
 @login_required(login_url="/login/")
 def add_category(request):
+
     if request.method == "POST":
 
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
+        name = request.POST.get("name", "").strip()
 
         if not name:
             messages.error(
@@ -720,6 +717,7 @@ def add_category(request):
 
 @login_required(login_url="/login/")
 def edit_category(request, category_id):
+
     category = get_object_or_404(
         Category,
         id=category_id
@@ -727,10 +725,7 @@ def edit_category(request, category_id):
 
     if request.method == "POST":
 
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
+        name = request.POST.get("name", "").strip()
 
         if not name:
             messages.error(
@@ -785,6 +780,7 @@ def edit_category(request, category_id):
 
 @login_required(login_url="/login/")
 def delete_category(request, category_id):
+
     category = get_object_or_404(
         Category,
         id=category_id
@@ -806,12 +802,10 @@ def delete_category(request, category_id):
 
 @login_required(login_url="/login/")
 def add_priority(request):
+
     if request.method == "POST":
 
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
+        name = request.POST.get("name", "").strip()
 
         if not name:
             messages.error(
@@ -861,6 +855,7 @@ def add_priority(request):
 
 @login_required(login_url="/login/")
 def edit_priority(request, priority_id):
+
     priority = get_object_or_404(
         Priority,
         id=priority_id
@@ -868,10 +863,7 @@ def edit_priority(request, priority_id):
 
     if request.method == "POST":
 
-        name = request.POST.get(
-            "name",
-            ""
-        ).strip()
+        name = request.POST.get("name", "").strip()
 
         if not name:
             messages.error(
@@ -926,6 +918,7 @@ def edit_priority(request, priority_id):
 
 @login_required(login_url="/login/")
 def delete_priority(request, priority_id):
+
     priority = get_object_or_404(
         Priority,
         id=priority_id
