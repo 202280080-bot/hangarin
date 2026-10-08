@@ -4,521 +4,379 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login - Hangarin</title>
+    <title>Login | Hangarin</title>
 
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
-            --dark: #1e1b4b;
-            --text: #374151;
-            --muted: #6b7280;
-            --white: #ffffff;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             min-height: 100vh;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at 10% 20%,
-                    rgba(255,255,255,0.18) 0,
-                    transparent 25%
-                ),
-                radial-gradient(
-                    circle at 90% 80%,
-                    rgba(6,182,212,0.20) 0,
-                    transparent 30%
-                ),
-                linear-gradient(
-                    135deg,
-                    #4338ca 0%,
-                    #6366f1 45%,
-                    #8b5cf6 100%
-                );
+            font-family: Arial, Helvetica, sans-serif;
 
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
-            padding: 30px;
-
-            overflow: hidden;
-
-            position: relative;
-        }
-
-
-        /* ========================================
-           DECORATIVE BACKGROUND
-        ======================================== */
-
-        body::before {
-            content: "";
-
-            position: absolute;
-
-            width: 350px;
-            height: 350px;
-
-            background: rgba(255,255,255,0.08);
-
-            border-radius: 50%;
-
-            top: -120px;
-            left: -100px;
-
-            filter: blur(2px);
-        }
-
-        body::after {
-            content: "";
-
-            position: absolute;
-
-            width: 450px;
-            height: 450px;
-
-            background: rgba(255,255,255,0.06);
-
-            border-radius: 50%;
-
-            bottom: -220px;
-            right: -150px;
-        }
-
-
-        /* ========================================
-           LOGIN CARD
-        ======================================== */
-
-        .login-container {
-
-            position: relative;
-
-            z-index: 2;
-
-            width: 100%;
-            max-width: 440px;
+            padding: 25px;
 
             background:
-                rgba(255,255,255,0.96);
+                radial-gradient(circle at 10% 15%, rgba(255, 107, 107, .30), transparent 25%),
+                radial-gradient(circle at 90% 15%, rgba(72, 149, 239, .30), transparent 25%),
+                radial-gradient(circle at 20% 90%, rgba(67, 170, 139, .25), transparent 25%),
+                radial-gradient(circle at 90% 90%, rgba(247, 183, 49, .25), transparent 25%),
+                linear-gradient(135deg, #eef2ff, #fdf2f8);
 
-            padding: 45px;
+            color: #172033;
+        }
 
-            border-radius: 24px;
+        .login-wrapper {
+            width: 100%;
+            max-width: 430px;
+        }
 
+        .login-card {
+            background: rgba(255, 255, 255, .96);
+            border-radius: 28px;
+            padding: 40px;
             box-shadow:
-                0 25px 60px rgba(30,27,75,0.30),
-                0 8px 25px rgba(0,0,0,0.10);
+                0 25px 70px rgba(31, 41, 55, .15),
+                0 5px 20px rgba(79, 70, 229, .08);
 
-            border: 1px solid rgba(255,255,255,0.7);
-
-            animation: cardAppear 0.7s ease;
+            border: 1px solid rgba(255, 255, 255, .8);
         }
 
-        @keyframes cardAppear {
+        /* =========================
+           BRAND
+        ========================= */
 
-            from {
-                opacity: 0;
-                transform: translateY(25px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-
-        }
-
-
-        /* ========================================
-           LOGO
-        ======================================== */
-
-        .logo {
+        .brand {
             text-align: center;
-
             margin-bottom: 30px;
         }
 
-        .logo-icon {
-
-            width: 70px;
-            height: 70px;
+        .brand-icon {
+            width: 72px;
+            height: 72px;
 
             margin: 0 auto 15px;
 
             display: flex;
-
-            justify-content: center;
             align-items: center;
+            justify-content: center;
 
-            border-radius: 20px;
+            border-radius: 22px;
 
             background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
+                linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
 
             color: white;
-
-            font-size: 34px;
-
+            font-size: 38px;
             font-weight: bold;
 
             box-shadow:
-                0 10px 25px rgba(99,102,241,0.35);
+                0 12px 25px rgba(124, 58, 237, .25);
         }
 
-        .logo h1 {
+        .brand h1 {
+            font-size: 30px;
+            letter-spacing: 2px;
 
-            margin: 0;
+            background:
+                linear-gradient(90deg, #4f46e5, #ec4899);
 
-            color: var(--dark);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
 
-            font-size: 34px;
-
-            letter-spacing: -1px;
+            margin-bottom: 5px;
         }
 
-        .logo h1 span {
-            color: var(--primary);
-        }
-
-        .logo p {
-
-            margin: 8px 0 0;
-
-            color: var(--muted);
-
+        .brand p {
+            color: #64748b;
             font-size: 14px;
         }
 
-
-        /* ========================================
-           MESSAGES
-        ======================================== */
-
-        .messages {
-
-            margin-bottom: 20px;
-        }
-
-        .message {
-
-            padding: 13px 15px;
-
-            border-radius: 10px;
-
-            background: #fef2f2;
-
-            color: #b91c1c;
-
-            border-left: 4px solid #ef4444;
-
-            font-size: 14px;
-
-            text-align: left;
-        }
-
-
-        /* ========================================
+        /* =========================
            FORM
-        ======================================== */
+        ========================= */
+
+        .form-title {
+            font-size: 22px;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
 
         .form-group {
-
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
-
             display: block;
-
             margin-bottom: 8px;
 
-            color: var(--text);
-
+            font-size: 13px;
             font-weight: bold;
-
-            font-size: 14px;
+            color: #374151;
         }
 
         .input-wrapper {
-
             position: relative;
         }
 
         .input-icon {
-
             position: absolute;
-
-            left: 15px;
-
+            left: 14px;
             top: 50%;
 
             transform: translateY(-50%);
 
             font-size: 17px;
-
-            color: #9ca3af;
-
-            pointer-events: none;
         }
 
-        .form-group input {
-
+        .form-control {
             width: 100%;
 
-            padding: 14px 15px 14px 45px;
+            padding: 14px 15px 14px 44px;
 
             border: 2px solid #e5e7eb;
+            border-radius: 12px;
 
-            border-radius: 11px;
-
-            font-size: 15px;
-
-            color: var(--text);
-
-            background: #f9fafb;
+            font-size: 14px;
 
             outline: none;
 
-            transition:
-                border-color 0.2s,
-                box-shadow 0.2s,
-                background 0.2s;
+            background: #f9fafb;
+
+            transition: .2s;
         }
 
-        .form-group input::placeholder {
-            color: #9ca3af;
-        }
-
-        .form-group input:hover {
+        .form-control:focus {
+            border-color: #6366f1;
             background: white;
-        }
-
-        .form-group input:focus {
-
-            background: white;
-
-            border-color: var(--primary);
 
             box-shadow:
-                0 0 0 4px rgba(99,102,241,0.12);
+                0 0 0 4px rgba(99, 102, 241, .10);
         }
 
+        /* =========================
+           MESSAGES
+        ========================= */
 
-        /* ========================================
+        .messages {
+            margin-bottom: 18px;
+        }
+
+        .message {
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .message.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .message.warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
+        }
+
+        .message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* =========================
            LOGIN BUTTON
-        ======================================== */
+        ========================= */
 
-        .login-button {
-
+        .login-btn {
             width: 100%;
+
+            border: none;
+            border-radius: 12px;
 
             padding: 14px;
 
-            border: none;
-
-            border-radius: 11px;
-
             background:
-                linear-gradient(
-                    135deg,
-                    var(--primary),
-                    var(--secondary)
-                );
+                linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
 
             color: white;
 
-            font-size: 16px;
-
+            font-size: 15px;
             font-weight: bold;
 
             cursor: pointer;
 
             box-shadow:
-                0 8px 20px rgba(99,102,241,0.30);
+                0 10px 20px rgba(99, 102, 241, .22);
 
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+            transition: .2s;
         }
 
-        .login-button:hover {
-
+        .login-btn:hover {
             transform: translateY(-2px);
 
             box-shadow:
-                0 12px 25px rgba(99,102,241,0.40);
+                0 14px 25px rgba(99, 102, 241, .30);
         }
 
-        .login-button:active {
-
+        .login-btn:active {
             transform: translateY(0);
         }
 
-
-        /* ========================================
+        /* =========================
            REGISTER
-        ======================================== */
+        ========================= */
 
         .register-section {
-
             text-align: center;
-
-            margin-top: 28px;
+            margin-top: 23px;
 
             padding-top: 22px;
 
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid #eef0f6;
+        }
 
-            color: var(--muted);
+        .register-section p {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
 
+        .register-link {
+            color: #6366f1;
+            font-weight: bold;
             font-size: 14px;
         }
 
-        .register-section a {
-
-            color: var(--primary);
-
-            text-decoration: none;
-
-            font-weight: bold;
-
-            margin-left: 4px;
-
-            transition: color 0.2s;
-        }
-
-        .register-section a:hover {
-
-            color: var(--secondary);
-
+        .register-link:hover {
+            color: #ec4899;
             text-decoration: underline;
         }
 
-
-        /* ========================================
+        /* =========================
            FOOTER
-        ======================================== */
+        ========================= */
 
         .footer {
-
             text-align: center;
 
-            margin-top: 25px;
+            margin-top: 20px;
 
-            color: #9ca3af;
-
+            color: #94a3b8;
             font-size: 12px;
         }
 
-
-        /* ========================================
-           MOBILE
-        ======================================== */
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
         @media (max-width: 500px) {
 
             body {
-                padding: 18px;
+                padding: 15px;
             }
 
-            .login-container {
-
-                padding: 32px 25px;
-
-                border-radius: 20px;
+            .login-card {
+                padding: 30px 22px;
+                border-radius: 22px;
             }
 
-            .logo-icon {
-
-                width: 60px;
-                height: 60px;
-
-                font-size: 29px;
+            .brand h1 {
+                font-size: 26px;
             }
 
-            .logo h1 {
-
-                font-size: 29px;
+            .brand-icon {
+                width: 62px;
+                height: 62px;
+                font-size: 32px;
             }
-
         }
     </style>
 </head>
 
 <body>
 
-    <div class="login-container">
+<div class="login-wrapper">
 
-        <!-- ========================================
-             LOGO
-        ======================================== -->
+    <div class="login-card">
 
-        <div class="logo">
+        <!-- BRAND -->
 
-            <div class="logo-icon">
-                H
+        <div class="brand">
+
+            <div class="brand-icon">
+                ✓
             </div>
 
-            <h1>
-                Hang<span>arin</span>
-            </h1>
+            <h1>HANGARIN</h1>
 
             <p>
-                Task Management System
+                Task & To-Do Manager
             </p>
 
         </div>
 
 
-        <!-- ========================================
-             DJANGO MESSAGES
-        ======================================== -->
+        <!-- TITLE -->
+
+        <h2 class="form-title">
+            Welcome Back! 👋
+        </h2>
+
+        <p class="form-subtitle">
+            Sign in to continue managing your tasks.
+        </p>
+
+
+        <!-- MESSAGES -->
 
         {% if messages %}
 
-            <div class="messages">
+        <div class="messages">
 
-                {% for message in messages %}
+            {% for message in messages %}
 
-                    <div class="message">
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-
+            <div class="message {{ message.tags }}">
+                {{ message }}
             </div>
+
+            {% endfor %}
+
+        </div>
 
         {% endif %}
 
 
-        <!-- ========================================
-             LOGIN FORM
-        ======================================== -->
+        <!-- LOGIN FORM -->
 
-        <form
-            method="POST"
-            action="{% url 'login' %}"
-        >
+        <form method="POST">
 
             {% csrf_token %}
 
@@ -541,6 +399,7 @@
                         type="text"
                         id="username"
                         name="username"
+                        class="form-control"
                         placeholder="Enter your username"
                         autocomplete="username"
                         required
@@ -569,6 +428,7 @@
                         type="password"
                         id="password"
                         name="password"
+                        class="form-control"
                         placeholder="Enter your password"
                         autocomplete="current-password"
                         required
@@ -583,42 +443,39 @@
 
             <button
                 type="submit"
-                class="login-button"
+                class="login-btn"
             >
-                Login to Hangarin
+                🔐 Sign In
             </button>
 
         </form>
 
 
-        <!-- ========================================
-             REGISTER
-        ======================================== -->
+        <!-- REGISTER -->
 
         <div class="register-section">
 
-            <span>
-                Don't have an account?
-            </span>
+            <p>
+                Don't have an account yet?
+            </p>
 
-            <a href="{% url 'register' %}">
-                Create Account
+            <a
+                href="{% url 'register' %}"
+                class="register-link"
+            >
+                ✨ Create an Account
             </a>
 
         </div>
 
-
-        <!-- ========================================
-             FOOTER
-        ======================================== -->
-
-        <div class="footer">
-
-            © 2026 Hangarin Task Management System
-
-        </div>
-
     </div>
+
+
+    <div class="footer">
+        © 2026 Hangarin • Stay organized, stay productive. 🚀
+    </div>
+
+</div>
 
 </body>
 </html>
