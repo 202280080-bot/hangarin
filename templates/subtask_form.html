@@ -4,142 +4,452 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>
-        {% if subtask %}Edit Subtask{% else %}Add Subtask{% endif %} | Hangarin
-    </title>
+    <title>{% if subtask %}Edit Subtask{% else %}Add Subtask{% endif %} - Hangarin</title>
 
     <style>
         * {
             box-sizing: border-box;
+        }
+
+        html,
+        body {
             margin: 0;
             padding: 0;
+            min-height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            font-family: Arial, Helvetica, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            padding: 40px 20px;
+            background:
+                radial-gradient(circle at 8% 15%, rgba(255,255,255,0.55) 0 70px, transparent 71px),
+                radial-gradient(circle at 92% 12%, rgba(255,220,90,0.65) 0 110px, transparent 111px),
+                radial-gradient(circle at 12% 85%, rgba(130,255,190,0.50) 0 130px, transparent 131px),
+                radial-gradient(circle at 90% 82%, rgba(255,120,210,0.45) 0 150px, transparent 151px),
+                linear-gradient(135deg, #dff7ff 0%, #d9e7ff 28%, #eee0ff 55%, #ffe0f2 78%, #fff2c7 100%);
+            overflow-x: hidden;
+            color: #1e3a8a;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .circle-one {
+            width: 280px;
+            height: 280px;
+            background: rgba(77,190,255,0.30);
+            top: -100px;
+            left: 180px;
+        }
+
+        .circle-two {
+            width: 230px;
+            height: 230px;
+            background: rgba(255,226,80,0.40);
+            top: 40px;
+            right: -70px;
+        }
+
+        .circle-three {
+            width: 300px;
+            height: 300px;
+            background: rgba(105,240,170,0.25);
+            bottom: -120px;
+            left: -80px;
+        }
+
+        .circle-four {
+            width: 300px;
+            height: 300px;
+            background: rgba(245,100,205,0.28);
+            bottom: -100px;
+            right: -70px;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 30px;
+            opacity: 0.65;
+            transform: rotate(18deg);
+        }
+
+        .shape-one {
+            width: 100px;
+            height: 100px;
+            background: #ffd85a;
+            top: 220px;
+            left: 40px;
+        }
+
+        .shape-two {
+            width: 90px;
+            height: 90px;
+            background: #ff8fd4;
+            top: 300px;
+            right: 55px;
+            transform: rotate(-15deg);
+        }
+
+        .shape-three {
+            width: 80px;
+            height: 80px;
+            background: #69e6a5;
+            bottom: 100px;
+            right: 150px;
+            transform: rotate(25deg);
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 35px 20px 60px;
         }
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 1050px;
             margin: 0 auto;
         }
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 35px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
-        }
-
-        .header {
+        .brand {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+        .brand-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 10px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+
+            border-radius: 20px;
+
+            background: linear-gradient(135deg, #ffd43b, #ff9f1c);
+
+            color: #ffffff;
+
+            font-size: 38px;
+            font-weight: 900;
+
+            box-shadow: 0 12px 25px rgba(255,159,28,0.30);
+        }
+
+        .brand h1 {
+            margin: 0;
+
+            font-size: clamp(38px, 7vw, 68px);
+            font-weight: 900;
+            letter-spacing: 2px;
+
+            background: linear-gradient(
+                90deg,
+                #263db7,
+                #5146d8,
+                #2869d8
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .brand p {
+            margin: 5px 0 0;
+
+            font-size: 17px;
             font-weight: bold;
+            color: #3654a3;
+            letter-spacing: 1px;
         }
 
-        h1 {
-            color: #222;
-            font-size: 28px;
-            margin-bottom: 8px;
+        .decor-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 25px;
         }
 
-        .subtitle {
-            color: #777;
+        .quote-card {
+            padding: 18px 22px;
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.70);
+            border: 1px solid rgba(255,255,255,0.80);
+
+            box-shadow: 0 10px 30px rgba(46,65,130,0.10);
+
+            font-size: 16px;
+            font-weight: bold;
+            color: #30489c;
+        }
+
+        .quote-card.left {
+            border-left: 7px solid #ffd43b;
+        }
+
+        .quote-card.right {
+            border-left: 7px solid #69e6a5;
+        }
+
+        .card {
+            width: 100%;
+
+            background: rgba(255,255,255,0.96);
+
+            border: 1px solid rgba(255,255,255,0.90);
+
+            border-radius: 28px;
+
+            padding: 38px;
+
+            box-shadow: 0 25px 70px rgba(43,57,130,0.20);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .add-icon {
+            width: 60px;
+            height: 60px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: linear-gradient(135deg, #10b981, #059669);
+
+            color: white;
+
+            font-size: 34px;
+            font-weight: bold;
+
+            box-shadow: 0 10px 25px rgba(16,185,129,0.30);
+        }
+
+        .card-header h2 {
+            margin: 0 0 5px;
+
+            font-size: 30px;
+            color: #1f3b83;
+        }
+
+        .card-header p {
+            margin: 0;
+
+            color: #718096;
             font-size: 14px;
         }
 
-        .form-group {
+        .message {
+            padding: 13px 16px;
             margin-bottom: 20px;
+
+            border-radius: 12px;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
+
             margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
+
+            color: #243b7a;
+
             font-size: 14px;
+            font-weight: 800;
         }
 
         input,
         select {
             width: 100%;
-            padding: 13px 15px;
-            border: 1px solid #ddd;
+
+            padding: 14px 15px;
+
+            border: 2px solid #dbe4f3;
             border-radius: 12px;
+
+            background: #ffffff;
+
+            color: #1f2937;
+
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 15px;
+
             outline: none;
-            background: white;
-            transition: 0.2s;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        input:hover,
+        select:hover {
+            border-color: #aabde8;
         }
 
         input:focus,
         select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+            border-color: #10b981;
+
+            box-shadow:
+                0 0 0 4px rgba(16,185,129,0.12);
         }
 
         .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+        .button {
             display: flex;
-            gap: 12px;
-            margin-top: 28px;
-        }
+            align-items: center;
+            justify-content: center;
 
-        .btn {
-            flex: 1;
-            text-decoration: none;
-            border: none;
-            border-radius: 12px;
-            padding: 14px 18px;
+            min-height: 52px;
+
+            border-radius: 13px;
+
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 800;
+
+            text-decoration: none;
+
             cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .back {
+            background: #f3f6fb;
+            color: #365184;
+
+            border: 2px solid #dce5f2;
+        }
+
+        .back:hover {
+            background: #eaf0f9;
+        }
+
+        .submit {
+            border: 0;
+
+            background: linear-gradient(
+                135deg,
+                #10b981,
+                #059669
+            );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 10px 22px rgba(16,185,129,0.28);
+        }
+
+        .submit:hover {
+            box-shadow:
+                0 14px 28px rgba(16,185,129,0.36);
+        }
+
+        .footer {
             text-align: center;
-            transition: 0.2s;
+
+            margin-top: 25px;
+
+            color: #526aa4;
+
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
+        @media (max-width: 700px) {
 
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
+            .page {
+                padding: 25px 12px 40px;
+            }
 
-        .btn-secondary {
-            background: #f1f3f7;
-            color: #444;
-        }
-
-        .btn-secondary:hover {
-            background: #e5e7eb;
-        }
-
-        @media (max-width: 600px) {
             .card {
-                padding: 25px 20px;
+                padding: 25px 18px;
+                border-radius: 20px;
+            }
+
+            .brand h1 {
+                font-size: 45px;
+            }
+
+            .brand p {
+                font-size: 14px;
+            }
+
+            .decor-row {
+                grid-template-columns: 1fr;
             }
 
             .buttons {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                align-items: flex-start;
+            }
+
+            .card-header h2 {
+                font-size: 24px;
+            }
+
+            .add-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 28px;
+            }
+
+            .shape-one,
+            .shape-two,
+            .shape-three {
+                opacity: 0.25;
             }
         }
     </style>
@@ -147,107 +457,233 @@
 
 <body>
 
-<div class="container">
+    <div class="background">
+        <div class="circle circle-one"></div>
+        <div class="circle circle-two"></div>
+        <div class="circle circle-three"></div>
+        <div class="circle circle-four"></div>
 
-    <div class="card">
-
-        <div class="header">
-            <div class="logo">H</div>
-
-            <h1>
-                {% if subtask %}
-                    Edit Subtask
-                {% else %}
-                    Add Subtask
-                {% endif %}
-            </h1>
-
-            <p class="subtitle">
-                {% if subtask %}
-                    Update your subtask information
-                {% else %}
-                    Create a new subtask for your task
-                {% endif %}
-            </p>
-        </div>
-
-        <form method="POST">
-            {% csrf_token %}
-
-            <div class="form-group">
-                <label for="parent_task">Parent Task</label>
-
-                <select name="parent_task" id="parent_task" required>
-                    <option value="">-- Select Task --</option>
-
-                    {% for task in tasks %}
-                        <option
-                            value="{{ task.id }}"
-                            {% if subtask and subtask.parent_task_id == task.id %}
-                                selected
-                            {% endif %}
-                        >
-                            {{ task.title }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="title">Subtask Title</label>
-
-                <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    value="{% if subtask %}{{ subtask.title }}{% endif %}"
-                    placeholder="Enter subtask title"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="status">Status</label>
-
-                <select name="status" id="status" required>
-                    <option value="Pending"
-                        {% if subtask and subtask.status == "Pending" %}selected{% endif %}>
-                        Pending
-                    </option>
-
-                    <option value="In Progress"
-                        {% if subtask and subtask.status == "In Progress" %}selected{% endif %}>
-                        In Progress
-                    </option>
-
-                    <option value="Completed"
-                        {% if subtask and subtask.status == "Completed" %}selected{% endif %}>
-                        Completed
-                    </option>
-                </select>
-            </div>
-
-            <div class="buttons">
-
-                <a href="{% url 'dashboard' %}" class="btn btn-secondary">
-                    ← Back
-                </a>
-
-                <button type="submit" class="btn btn-primary">
-                    {% if subtask %}
-                        Update Subtask
-                    {% else %}
-                        Add Subtask
-                    {% endif %}
-                </button>
-
-            </div>
-
-        </form>
-
+        <div class="shape shape-one"></div>
+        <div class="shape shape-two"></div>
+        <div class="shape shape-three"></div>
     </div>
 
-</div>
+
+    <main class="page">
+
+        <div class="container">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    H
+                </div>
+
+                <h1>HANGARIN</h1>
+
+                <p>
+                    Plan &nbsp;•&nbsp; Organize &nbsp;•&nbsp; Achieve
+                </p>
+
+            </div>
+
+
+            <div class="decor-row">
+
+                <div class="quote-card left">
+                    Break big goals into small, achievable steps.
+                </div>
+
+                <div class="quote-card right">
+                    Every completed subtask brings you closer to your goal.
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div class="add-icon">
+                        +
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            {% if subtask %}
+                                Edit Subtask
+                            {% else %}
+                                Add New Subtask
+                            {% endif %}
+                        </h2>
+
+                        <p>
+                            {% if subtask %}
+                                Update your subtask information.
+                            {% else %}
+                                Create a smaller step for your main task.
+                            {% endif %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="message">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- PARENT TASK -->
+                    <div class="form-group">
+
+                        <label for="parent_task">
+                            Parent Task
+                        </label>
+
+                        <select
+                            id="parent_task"
+                            name="parent_task"
+                            required
+                        >
+
+                            <option value="">
+                                Select parent task...
+                            </option>
+
+                            {% for task in tasks %}
+
+                                <option
+                                    value="{{ task.id }}"
+                                    {% if subtask and subtask.parent_task_id == task.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ task.title }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- SUBTASK TITLE -->
+                    <div class="form-group">
+
+                        <label for="title">
+                            Subtask Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            maxlength="255"
+                            placeholder="Enter subtask title..."
+                            value="{% if subtask %}{{ subtask.title }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <div class="form-group">
+
+                        <label for="status">
+                            Status
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                        >
+
+                            <option
+                                value="Pending"
+                                {% if not subtask or subtask.status == "Pending" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Pending
+                            </option>
+
+                            <option
+                                value="In Progress"
+                                {% if subtask and subtask.status == "In Progress" %}
+                                    selected
+                                {% endif %}
+                            >
+                                In Progress
+                            </option>
+
+                            <option
+                                value="Completed"
+                                {% if subtask and subtask.status == "Completed" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Completed
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <a
+                            href="{% url 'dashboard' %}"
+                            class="button back"
+                        >
+                            Back to Dashboard
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="button submit"
+                        >
+                            {% if subtask %}
+                                Update Subtask
+                            {% else %}
+                                Save Subtask
+                            {% endif %}
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="footer">
+                Hangarin Task Manager &nbsp;•&nbsp; One step at a time.
+            </div>
+
+        </div>
+
+    </main>
 
 </body>
 </html>
